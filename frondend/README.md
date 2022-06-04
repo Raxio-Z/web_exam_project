@@ -1,4 +1,4 @@
-# web_exam_project
+# frondend
 
 ## Project setup
 ```
