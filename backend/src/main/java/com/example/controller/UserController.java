@@ -25,4 +25,12 @@ public class UserController{
         return "这是登陆界面";
     }
 
+    @GetMapping("/show")
+    @ResponseBody
+    public String show(){
+        User user = userMapper.selectById(1);
+        return user+"";
+    }
+
+
 }

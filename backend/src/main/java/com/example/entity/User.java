@@ -20,4 +20,19 @@ public class User {
     private String userDescription;
     private String userEmail;
     private String userPhone;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userUsername='" + userUsername + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userRoleId=" + userRoleId +
+                ", userAvatar='" + userAvatar + '\'' +
+                ", userDescription='" + userDescription + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                '}';
+    }
 }
