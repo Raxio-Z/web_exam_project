@@ -11,26 +11,18 @@
         <a-form class="login-form" @submit="loginSubmit">
           <a-form-item>
             <a-input
-                ref="loginUsername"
                 size="large"
                 class="login-username"
                 type="text"
-                placeholder="请输入邮箱/手机号"
-
+                placeholder="输入提示信息"
+                v-model="loginState.userUsername"
                 v-decorator="[
-                'loginUsername',
-                {rules: [
-                    {
-                      required: true,
-                      message: '请输入邮箱/手机号'
-                    }
-                  ]
-                }
+                'loginusername',
+                {rules: [{ required: true, message: '错误信息' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
               ]"
             >
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
-
           </a-form-item>
 
           <a-form-item>
@@ -40,9 +32,9 @@
                 type="password"
                 autocomplete="false"
                 placeholder="请输入密码"
-
+                v-model="loginState.userPassword"
                 v-decorator="[
-                'loginPassword',
+                'login_password',
                 {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
               ]"
             >
@@ -56,9 +48,8 @@
                 type="primary"
                 htmlType="submit"
                 class="login-button"
-                :loading="button_dis"
-                :disabled="button_dis"
-            >确定
+                :disabled="login_button_dis"
+            >登录
             </a-button>
           </a-form-item>
         </a-form>
@@ -71,8 +62,8 @@
                 size="large"
                 class="register-username"
                 type="text"
-                placeholder="请输入邮箱/手机号"
-                v-model="regState.username"
+                placeholder="请输入邮箱"
+                v-model="regState.userUsername"
                 v-decorator="[
                 'register-username',
                 {rules: [{ required: true, message: '请输入邮箱/手机号' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
@@ -83,21 +74,28 @@
 
           </a-form-item>
 
-          <a-form-item>
-            <a-input
-                size="large"
-                class="register-password"
-                type="password"
-                autocomplete="false"
-                placeholder="至少6位密码，区分大小写"
-                v-model="regState.password"
-                v-decorator="[
-                'register-password',
-                {rules: [{ required: true, message: '至少6位密码，区分大小写' }], validateTrigger: 'blur'}
-              ]"
-            >
-            </a-input>
-          </a-form-item>
+          <a-popover placement="rightTop" trigger="click" :visible="levelVisible">
+            <template slot="content">
+              <div :style="{ width: '240px' }">
+                <div :class="['user-register', levelClass]">强度：<span>{{ levelName }}</span></div>
+                <a-progress :percent="levelPercent" :showInfo="false" :strokeColor=" levelColor "/>
+                <div style="margin-top: 10px;">
+                  <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
+                </div>
+              </div>
+            </template>
+            <a-form-item>
+              <a-input
+                  size="large"
+                  type="password"
+                  autocomplete="false"
+                  class="register-password"
+                  placeholder="至少6位密码，区分大小写"
+                  v-model="regState.userPassword"
+                  v-decorator="['reg_password', {rules: [{ required: true, message: '至少6位密码，区分大小写'}, { validator: this.ComputeLevel }], validateTrigger: ['change', 'blur']}]"
+              ></a-input>
+            </a-form-item>
+          </a-popover>
 
           <a-form-item>
             <a-input
@@ -106,11 +104,8 @@
                 type="password"
                 autocomplete="false"
                 placeholder="确认密码"
-                v-model="regState.password"
-                v-decorator="[
-                'register-password-confirm',
-                {rules: [{ required: true, message: '确认密码' }], validateTrigger: 'blur'}
-              ]"
+                v-model="regState.userRePassword"
+                v-decorator="['reg_password2', {rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.PasswordCheck }], validateTrigger: ['change', 'blur']}]"
             >
             </a-input>
           </a-form-item>
@@ -121,8 +116,8 @@
                 type="primary"
                 htmlType="submit"
                 class="register-button"
-                :loading="button_dis"
-                :disabled="button_dis"
+                :disabled="reg_button_dis"
+
             >注册
             </a-button>
           </a-form-item>
@@ -138,67 +133,169 @@
 
 <script>
 
+import request from "@/utils/request";
+import {timeFix} from "@/utils/publicFunction";
+
+const levelNameForm = {
+  0: '低',
+  1: '低',
+  2: '中',
+  3: '强'
+}
+const levelClassForm = {
+  0: 'error',
+  1: 'error',
+  2: 'warning',
+  3: 'success'
+}
+const levelColorForm = {
+  0: '#ff0000',
+  1: '#ff0000',
+  2: '#ff7e05',
+  3: '#52c41a'
+}
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
   data(){
     return{
-      button_dis:false,
+      login_button_dis:true,
+      reg_button_dis:true,
       loginType:0,
       keyState:'login',
-      State:{
-        button_dis:false,
-        loginType:0,
-        keyState:'login'
-      },
+
+      passwordLevel:0,
+      levelVisible:false,
+      levelColor:levelColorForm[0],
+      levelName:levelNameForm[0],
+      levelClass:levelClassForm[0],
+      levelPercent:10,
+
       loginState:{
-        username:'',
-        password:''
+        userUsername:'',
+        userPassword:''
       },
       regState:{
-        username:'',
-        phone:'',
-        password:''
+        userUsername:'',
+        userPassword:'',
+        userRePassword:'',
       },
 
     }
   },
-  //https://www.jianshu.com/p/c24997512be7
+
+  watch:{
+    keyState(newVal){
+      if(newVal==='login')
+        console.log('现在是登录哦')
+      if(newVal==='register')
+        console.log('现在是注册哦')
+    },
+    loginState:{
+      handler(){
+        console.log('登录信息变化啦')
+        if(this.loginState.userUsername!==''&&this.loginState.userPassword!=='')
+          this.login_button_dis=false;
+        else
+          this.login_button_dis=true;
+      },
+      immediate:true,
+      deep:true
+    },
+    regState:{
+      handler(){
+        if(this.regState.userUsername!==''&&this.regState.userPassword!=='')
+          this.reg_button_dis=false;
+        else
+          this.reg_button_dis=true;
+      },
+      immediate:true,
+      deep:true
+    },
+    passwordLevel:{
+      handler(newVal){
+        this.levelColor=levelColorForm[newVal]
+        this.levelName=levelNameForm[newVal]
+        this.levelClass=levelClassForm[newVal]
+      }
+    }
+  },
+
   methods:{
     loginSubmit(e){
-
-      console.log(this.$refs.loginUsername.value)
       // // 阻止默认操作
        e.preventDefault()
-      const {
-        form: { validateFields },
-        state,
-        Login
-      } = this
 
-      state.loginBtn = true
-      const validateFieldsKey =  ['loginUsername', 'loginPassword']
-      validateFields(validateFieldsKey, { force: true }, (err, values) => {
-        console.log(values) // 打印用户的登录参数
-        if (!err) {
-          const loginParams = {} // 声明登录的参数
-          loginParams.loginType = state.loginType // 登录类型，0 email, 1 username
-          loginParams.userInfo = values.username // 设置用户信息，因为email还是username不确定，所以用userinfo字段来代替
-          loginParams.password = values.password // 用户的密码，无加密
-          console.log(loginParams)
-          Login(loginParams) // 请求登录接口
-              .then((res) => this.loginSuccess(res)) // 成功
-              .catch(err => this.requestFailed(err)) // 失败
-              .finally(() => {
-                state.loginBtn = true // 不管登录成功与否，都要把按钮置灰，防止用户重复点击
-              })
-        } else {
-          setTimeout(() => {
-            state.loginBtn = false
-          }, 600)
-        }
+      //ref也能拿到数据
+      //console.log(this.$refs.loginUsername.value)
+      console.log(this.loginState)
+
+      request.post("/user/login",this.loginState)
+          .then(res=>this.loginSuccess(res))
+          .catch(err=>this.loginFail(err))
+          //.finally(()=>{this.login_button_dis=false})
+
+    },
+    //登录成功，进行跳转并弹出提示信息
+    loginSuccess(res){
+      console.log(res)
+      this.$router.push({name:'dashboard'})
+
+      setTimeout(()=>{
+        this.$notification.success({
+          message:'欢迎',
+          description:`${timeFix()},欢迎回来`
+        })
+      },600)
+
+    },
+    //登录失败，提示错误
+    loginFail(err){
+      console.log(err)
+      this.$notification['error']({
+        message:'错误',
+        description:'用户名或密码错误',
+        duration:4
       })
     },
+
+    ComputeLevel(rule,value,callback){
+      var level = 0
+      // 判断这个字符串中有没有数字
+      if (/[0-9]/.test(value)) {
+        level++
+      }
+      // 判断字符串中有没有字母
+      if (/[a-zA-Z]/.test(value)) {
+        level++
+      }
+      // 判断字符串中有没有特殊符号
+      if (/[^0-9a-zA-Z_]/.test(value)) {
+        level++
+      }
+      this.passwordLevel = level
+      this.levelPercent = level * 30
+      if (level >= 2) {
+        if (level >= 3) {
+          this.state.percent = 100
+        }
+        callback()
+      } else {
+        if (level === 0) {
+          this.levelPercent = 10
+        }
+        callback(new Error('密码强度不够'))
+      }
+    },
+
+    PasswordCheck(rule, value, callback){
+      if(this.regState.userRePassword === undefined)
+        callback(new Error('请再次输入密码'))
+      if(this.regState.userRePassword && this.regState.userPassword &&this.regState.userRePassword !== this.regState.userPassword )
+        callback(new Error('两次密码不一致'))
+    },
+
     registerSubmit(){
 
     },
@@ -207,12 +304,11 @@ export default {
     },
     //判断是不是邮箱
     validateEmailOrPhone(rule,value,callback){
-      const { state } = this
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
       if (regex.test(value)) {
-        state.loginType = 0
+        this.loginType = 0
       } else {
-        state.loginType = 1
+        this.loginType = 1
       }
       callback()
     }
@@ -235,4 +331,17 @@ export default {
   height: 40px;
 }
 
+.user-register {
+  &.error {
+    color: #ff0000;
+  }
+
+  &.warning {
+    color: #ff7e05;
+  }
+
+  &.success {
+    color: #52c41a;
+  }
+}
 </style>
