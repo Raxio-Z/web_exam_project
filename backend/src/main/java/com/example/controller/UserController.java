@@ -19,10 +19,10 @@ public class UserController{
         return Result.success();
     }
 
-    @GetMapping("/login")
-    @ResponseBody
-    public String login(){
-        return "这是登陆界面";
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody User user){
+        User res = userMapper.selectById(1);
+        return Result.success();
     }
 
     @GetMapping("/show")

@@ -14,7 +14,7 @@
               class="login-username"
               type="text"
               placeholder="请输入邮箱/手机号"
-              v-model="loginState.username"
+              v-model="loginState.userUsername"
               v-decorator="[
                 'username',
                 {rules: [{ required: true, message: '请输入邮箱/手机号' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
@@ -32,7 +32,7 @@
               type="password"
               autocomplete="false"
               placeholder="请输入密码"
-              v-model="loginState.password"
+              v-model="loginState.userPassword"
               v-decorator="[
                 'password',
                 {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
@@ -50,7 +50,7 @@
               class="login-button"
               :loading="button_dis"
               :disabled="button_dis"
-          >确定
+          >登陆
           </a-button>
         </a-form-item>
         </a-form>
@@ -64,7 +64,7 @@
                 class="register-username"
                 type="text"
                 placeholder="请输入邮箱/手机号"
-                v-model="regState.username"
+                v-model="regState.userUsername"
                 v-decorator="[
                 'register-username',
                 {rules: [{ required: true, message: '请输入邮箱/手机号' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
@@ -82,7 +82,7 @@
                 type="password"
                 autocomplete="false"
                 placeholder="至少6位密码，区分大小写"
-                v-model="regState.password"
+                v-model="regState.userPassword"
                 v-decorator="[
                 'register-password',
                 {rules: [{ required: true, message: '至少6位密码，区分大小写' }], validateTrigger: 'blur'}
@@ -132,6 +132,8 @@
 
 <script>
 
+import request from "@/utils/request";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
@@ -139,20 +141,23 @@ export default {
     return{
       button_dis:false,
       loginState:{
-        username:'',
-        password:''
+        userUsername:'',
+        userPassword:''
       },
       regState:{
-        username:'',
+        userUsername:'',
         phone:'',
-        password:''
+        userPassword:''
       },
       keyState:'login'
     }
   },
   methods:{
-    loginSubmit(){
-
+    loginSubmit(e){
+      e.preventDefault()
+      request.post("/user/login",this.loginState).then(res=>{
+        console.log(res.data)
+      })
     },
     registerSubmit(){
 
