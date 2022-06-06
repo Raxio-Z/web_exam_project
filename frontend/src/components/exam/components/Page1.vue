@@ -84,9 +84,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.page1 {
-  height: 580px;
-}
 
 .page1-line.title-line-wrapper {
   width: 312px;
