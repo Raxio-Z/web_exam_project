@@ -14,11 +14,13 @@
       >
 
         <a-menu-item key="1">
+          <router-link :to="{name:'welcome'}">
+            <div class="welcome">
+              <a-icon type="home"/>
+              <span>首页</span>
+            </div>
+          </router-link>
 
-          <div class="welcome">
-            <a-icon type="home"/>
-            <span>首页</span>
-          </div>
 
         </a-menu-item>
         <a-menu-item key="2">
