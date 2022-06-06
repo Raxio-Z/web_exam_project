@@ -22,7 +22,7 @@
 
         </a-menu-item>
         <a-menu-item key="2">
-          <router-link to="{name:'examList'}">
+          <router-link :to="{name:'examList'}">
             <div class="exam-list">
               <a-icon type="appstore"/>
               <span>考试卡片</span>
@@ -30,7 +30,7 @@
           </router-link>
         </a-menu-item>
         <a-menu-item key="3">
-          <router-link to="{name:'myExam'}">
+          <router-link :to="{name:'myExam'}">
             <div class="my-exam">
               <a-icon type="book"/>
               <span>我的考试</span>
