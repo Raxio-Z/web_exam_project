@@ -4,7 +4,7 @@
     <div class="page1-box">
       <div class="page1-point-wrapper"></div>
       <div class="page1-image" :style="{ boxShadow: `${item.shadowColor} 0px 6px 12px` }">
-        <img :src="item.src" />
+        <img :src="item.src"/>
       </div>
       <h3>{{ item.title }}</h3>
       <p>{{ item.content }}</p>
@@ -29,27 +29,33 @@ export default {
   width: 0;
   left: 50%;
   top: 0;
+
   .point-0 {
     width: 4px;
     height: 4px;
   }
+
   .point-2, .point-ring {
     width: 10px;
     height: 10px;
   }
+
   .point-ring {
     border-style: solid;
     border-width: 1px;
     background: transparent !important;
   }
+
   .point-1 {
     width: 6px;
     height: 6px;
   }
+
   .point-3 {
     width: 15px;
     height: 15px;
   }
+
   i {
     display: inline-block;
     border-radius: 100%;

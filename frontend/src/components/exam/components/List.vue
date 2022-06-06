@@ -28,7 +28,7 @@ export default {
     }
   },
   watch: {
-    dataSource (val) {
+    dataSource(val) {
       console.log('dataSource::update', val)
     }
   }
@@ -41,15 +41,18 @@ export default {
   margin-bottom: 62px;
   display: flex;
   align-items: flex-start;
+
   li {
     width: 33.33%;
     display: inline-block;
     will-change: transform;
+
     .page1-box {
       width: 194px;
       margin: auto;
       text-align: center;
       position: relative;
+
       .page1-image {
         width: 80px;
         height: 80px;
@@ -63,9 +66,11 @@ export default {
         background: #fff;
         transition: box-shadow .3s ease-out, transform .3s ease-out;
       }
+
       &:hover .page1-image {
         transform: translateY(-5px);
       }
+
       h3 {
         color: #0d1a26;
         font-size: 16px;

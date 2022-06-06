@@ -3,8 +3,19 @@
   <a-layout class="index-header">
     <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
       <div class="logo1">
-        <img src="../assets/logo.svg" class="logo" alt="logo">
-        <span class="title">Online Exam</span>
+        <a href="/">
+          <img src="../assets/logo.svg" class="logo" alt="logo">
+          <span class="title">Online Exam</span>
+        </a>
+      </div>
+      <!--      头像部分  靠右放置-->
+<!--      <div class="selfie">-->
+<!--        <a-avatar style="backgroundColor:#87d068" icon="user" />-->
+<!--        <span class="username">CodeingLogan</span>-->
+<!--      </div>-->
+
+      <div class="selfie">
+        <selfie></selfie>
       </div>
 
       <a-menu theme="dark"
@@ -68,8 +79,13 @@
 </template>
 
 <script>
+import Selfie from "@/components/exam/components/Selfie";
+
 export default {
-  name: "BasicLayout"
+  name: "BasicLayout",
+  components:{
+    Selfie
+  }
 }
 </script>
 
@@ -87,6 +103,7 @@ export default {
     margin-right: 16px;
     border-style: none;
   }
+
   .title {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.95);
@@ -97,7 +114,18 @@ export default {
   }
 }
 
-.mid-content{
+.selfie{
+  width: 250px;
+  height: 30px;
+  float: right;
+
+  .username{
+    margin-left: 5px;
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.mid-content {
   width: 100%;
 }
 

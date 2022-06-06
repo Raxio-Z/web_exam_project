@@ -15,6 +15,7 @@
             <a-input
                 size="large"
                 class="login-username"
+                ref="loginUsername"
                 type="text"
                 placeholder="请输入邮箱"
                 v-model="loginState.userUsername"
@@ -137,6 +138,7 @@
 
 <script>
 
+import mapMutations from "vuex"
 import request from "@/utils/request";
 import {timeFix} from "@/utils/publicFunction";
 
@@ -235,6 +237,8 @@ export default {
   },
 
   methods:{
+    // 这个是从Vuex中直接继承过来，从而可以当本地方法用，store/index.js
+    ...mapMutations(['changeLogin']),
     loginSubmit(e){
       // // 阻止默认操作
        e.preventDefault()
@@ -251,10 +255,14 @@ export default {
     },
     //登录成功，进行跳转并弹出提示信息
     loginResponse(res){
-      console.log(res)
+      console.log(res)   //这里是res还是res.data
 
       if(res.code===0)
       {
+        this.userToken = 'Bearer ' + res.data.data.body.token;
+        // 将用户token保存到vuex中
+        this.changeLogin({ Authorization: this.userToken });
+
         this.$router.push({name:'welcome'})
 
         setTimeout(()=>{
