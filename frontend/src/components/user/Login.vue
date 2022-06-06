@@ -255,7 +255,7 @@ export default {
 
       if(res.code===0)
       {
-        this.$router.push({name:'dashboard'})
+        this.$router.push({name:'welcome'})
 
         setTimeout(()=>{
           this.$notification.success({
