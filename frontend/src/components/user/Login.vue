@@ -9,16 +9,18 @@
 
       <a-tab-pane key="login" tab="登录">
         <a-form class="login-form" @submit="loginSubmit">
-          <a-form-item>
+          <a-form-item
+              :rules="[{ required: true, message: '请输入邮箱' }]"
+          >
             <a-input
                 size="large"
                 class="login-username"
                 type="text"
-                placeholder="输入提示信息"
+                placeholder="请输入邮箱"
                 v-model="loginState.userUsername"
                 v-decorator="[
                 'loginusername',
-                {rules: [{ required: true, message: '错误信息' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
+                {rules: [{ required: true, message: '请输入邮箱！' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
               ]"
             >
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -35,7 +37,7 @@
                 v-model="loginState.userPassword"
                 v-decorator="[
                 'login_password',
-                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+                {rules: [{ required: true, message: '请输入密码！' }], validateTrigger: 'blur'}
               ]"
             >
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -57,7 +59,9 @@
 
       <a-tab-pane key="register" tab="注册">
         <a-form class="register-form" @submit="registerSubmit">
-          <a-form-item>
+          <a-form-item
+
+          >
             <a-input
                 size="large"
                 class="register-username"
@@ -104,7 +108,7 @@
                 type="password"
                 autocomplete="false"
                 placeholder="确认密码"
-                v-model="regState.userRePassword"
+                v-model="userRePassword"
                 v-decorator="['reg_password2', {rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.PasswordCheck }], validateTrigger: ['change', 'blur']}]"
             >
             </a-input>
@@ -179,9 +183,8 @@ export default {
       regState:{
         userUsername:'',
         userPassword:'',
-        userRePassword:'',
       },
-
+      userRePassword:'',
     }
   },
 
@@ -203,9 +206,9 @@ export default {
       immediate:true,
       deep:true
     },
-    regState:{
+    Merge:{
       handler(){
-        if(this.regState.userUsername!==''&&this.regState.userPassword!=='')
+        if(this.regState.userUsername!==''&&this.regState.userPassword!==''&&this.userRePassword!=='')
           this.reg_button_dis=false;
         else
           this.reg_button_dis=true;
@@ -221,6 +224,15 @@ export default {
       }
     }
   },
+  computed:{
+    Merge() {
+      const { regState, userRePassword} = this
+      return {
+        regState,
+        userRePassword
+      }
+    }
+  },
 
   methods:{
     loginSubmit(e){
@@ -232,22 +244,34 @@ export default {
       console.log(this.loginState)
 
       request.post("/user/login",this.loginState)
-          .then(res=>this.loginSuccess(res))
+          .then(res=>this.loginResponse(res))
           .catch(err=>this.loginFail(err))
           //.finally(()=>{this.login_button_dis=false})
 
     },
     //登录成功，进行跳转并弹出提示信息
-    loginSuccess(res){
+    loginResponse(res){
       console.log(res)
-      this.$router.push({name:'dashboard'})
 
-      setTimeout(()=>{
-        this.$notification.success({
-          message:'欢迎',
-          description:`${timeFix()},欢迎回来`
+      if(res.code===0)
+      {
+        this.$router.push({name:'dashboard'})
+
+        setTimeout(()=>{
+          this.$notification.success({
+            message:'欢迎',
+            description:`${timeFix()},欢迎回来`
+          })
+        },600)
+      }
+      else
+      {
+        this.$notification['error']({
+          message:'错误',
+          description:'用户名或密码错误',
+          duration:4
         })
-      },600)
+      }
 
     },
     //登录失败，提示错误
@@ -255,7 +279,7 @@ export default {
       console.log(err)
       this.$notification['error']({
         message:'错误',
-        description:'用户名或密码错误',
+        description: ((err.response || {}).data || {}).message || '出错啦',
         duration:4
       })
     },
@@ -290,15 +314,59 @@ export default {
     },
 
     PasswordCheck(rule, value, callback){
-      if(this.regState.userRePassword === undefined)
+      if(this.userRePassword === undefined)
         callback(new Error('请再次输入密码'))
-      if(this.regState.userRePassword && this.regState.userPassword &&this.regState.userRePassword !== this.regState.userPassword )
+      if(this.userRePassword && this.regState.userPassword &&this.userRePassword !== this.regState.userPassword )
         callback(new Error('两次密码不一致'))
     },
 
-    registerSubmit(){
+    registerSubmit(e){
+      e.preventDefault()
+
+      //ref也能拿到数据
+      //console.log(this.$refs.loginUsername.value)
+      console.log(this.regState)
+
+      request.post("/user/register",this.regState)
+          .then(res=>this.regResponce(res))
+          .catch(err=>this.regFail(err))
 
     },
+
+    //登录成功，进行跳转并弹出提示信息
+    regResponce(res){
+      console.log(res)
+
+      if(res.code===0)
+      {
+        this.$router.push({name:'user'})
+
+        setTimeout(()=>{
+          this.$notification.success({
+            message:'注册成功，请登录！'
+          })
+        },200)
+      }
+      else
+      {
+        this.$notification['error']({
+          message:'错误',
+          description:'用户名已注册',
+          duration:4
+        })
+      }
+
+    },
+    //登录失败，提示错误
+    regFail(err){
+      console.log(err)
+      this.$notification['error']({
+        message:'错误',
+        description:((err.response || {}).data || {}).message || '出错啦',
+        duration:4
+      })
+    },
+
     tabClick(key){
       this.keyState=key;
     },

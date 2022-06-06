@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
 import UserLayout from "@/Layouts/UserLayout";
+import BasicLayout from "@/Layouts/BasicLayout";
+// import HomeView from "@/views/HomeView";
+
 
 Vue.use(VueRouter)
 
@@ -9,7 +12,26 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    redirect: '/welcome',
+    component: BasicLayout,
+    children: [
+      {
+        path:'welcome',
+        name:'welcome',
+        component: () => import(/* webpackChunkName: "about" */ '../components/exam/Welcome')
+      },
+      {
+        path:'examList',
+        name:'examList',
+        component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+      },
+      {
+        path:'myExam',
+        name:'myExam',
+        component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+      }
+    ]
+
   },
   {
     path: '/about',
@@ -23,6 +45,7 @@ const routes = [
     path: '/user',
     component: UserLayout,
     redirect: '/user/login',
+    name: 'user',
     hidden: true,
     children: [
       {
