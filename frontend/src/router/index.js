@@ -29,9 +29,13 @@ const routes = [
                 path: 'myExam',
                 name: 'myExam',
                 component: () => import(/* webpackChunkName: "about" */ '../components/exam/MyExam')
+            },
+            {
+                path:'settings',
+                name:'settings',
+                component: () => import(/* webpackChunkName: "about" */ '../components/user/Settings')
             }
         ]
-
     },
     {
         path: '/about',
