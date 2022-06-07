@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
 import UserLayout from "@/Layouts/UserLayout";
+import BasicLayout from "@/Layouts/BasicLayout";
+// import HomeView from "@/views/HomeView";
+
 
 Vue.use(VueRouter)
 
@@ -9,7 +12,26 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    redirect: '/welcome',
+    component: BasicLayout,
+    children: [
+      {
+        path:'welcome',
+        name:'welcome',
+        component: () => import(/* webpackChunkName: "about" */ '../components/exam/Welcome')
+      },
+      {
+        path:'examList',
+        name:'examList',
+        component: () => import(/* webpackChunkName: "about" */ '../components/exam/ExamList')
+      },
+      {
+        path:'myExam',
+        name:'myExam',
+        component: () => import(/* webpackChunkName: "about" */ '../components/exam/MyExam')
+      }
+    ]
+
   },
   {
     path: '/about',
@@ -23,6 +45,7 @@ const routes = [
     path: '/user',
     component: UserLayout,
     redirect: '/user/login',
+    name: 'user',
     hidden: true,
     children: [
       {
@@ -49,5 +72,23 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// 设置路由导航守卫，注册全局前置守卫，判断用户是否登录
+router.beforeEach((to,from,next)=>{
+  if(to.path==='/user/login'){
+    next();
+  }
+  else {
+    var token = localStorage.getItem('Authorization');
+    //没有token或token过期，跳到登录界面
+    if(token===null||token===''){
+      next('/user/login');
+    }
+    else{
+      next();
+    }
+  }
+})
+
 
 export default router

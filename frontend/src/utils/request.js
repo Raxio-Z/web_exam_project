@@ -11,6 +11,10 @@ const request = axios.create({
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
 
+
+    if (localStorage.getItem('Authorization')) {
+        config.headers.Authorization = localStorage.getItem('Authorization');
+    }
     // config.headers['token'] = user.token;  // 设置请求头
     return config
 }, error => {
@@ -40,4 +44,3 @@ request.interceptors.response.use(
 
 
 export default request
-

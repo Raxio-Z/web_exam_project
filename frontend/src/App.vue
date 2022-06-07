@@ -4,6 +4,24 @@
   </div>
 </template>
 
+<script>
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+
+
+export default {
+
+  data () {
+    return {
+      locale: zhCN
+    }
+  },
+  mounted () {
+
+  }
+}
+</script>
+
+
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

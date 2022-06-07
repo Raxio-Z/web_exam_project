@@ -1,6 +1,6 @@
 create database if not exists online_exam;
 use online_exam;
-drop table user;
+
 create table user(
 	user_id integer key auto_increment,
     user_username text,
