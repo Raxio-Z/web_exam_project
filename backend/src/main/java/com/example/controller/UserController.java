@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/user")
 public class UserController{
+    // 通过一个Resource注解，省去了SqlSessionFactoryBuilder,SqlSessionFactory,SqlSession
     @Resource
     UserMapper userMapper;
 
@@ -31,6 +32,4 @@ public class UserController{
         User user = userMapper.selectById(1);
         return user+"";
     }
-
-
 }
