@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -19,8 +20,11 @@ public class User {
     private String userAvatar;
     private String userDescription;
     private String userEmail;
+
     private String userPhone;
 
+    @TableField(exist = false)
+    private String token;
     @Override
     public String toString() {
         return "User{" +
@@ -33,6 +37,7 @@ public class User {
                 ", userDescription='" + userDescription + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", userPhone='" + userPhone + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

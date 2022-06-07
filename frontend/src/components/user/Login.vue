@@ -138,7 +138,7 @@
 <script>
 
 
-import mapMutations from "vuex"
+import {mapMutations} from "vuex"
 import request from "@/utils/request";
 import {timeFix} from "@/utils/publicFunction";
 
@@ -245,20 +245,21 @@ export default {
 
       //ref也能拿到数据
       //console.log(this.$refs.loginUsername.value)
-      console.log(this.loginState)
+      //console.log(this.loginState)
 
       request.post("/user/login",this.loginState)
           .then(res=>this.loginResponse(res))
           .catch(err=>this.loginFail(err))
           //.finally(()=>{this.login_button_dis=false})
-
     },
     //登录成功，进行跳转并弹出提示信息
     loginResponse(res){
-      console.log(res)   //这里是res还是res.data
-
-      if(res.code===0)
+      //console.log(res)
+      //console.log(res.data.userPassword)
+      console.log(res)
+      if(res.code==='0')
       {
+        //console.log(res.data.token)
         this.userToken = 'Bearer ' + res.data.data.body.token;
         // 将用户token保存到vuex中
         this.changeLogin({ Authorization: this.userToken });
