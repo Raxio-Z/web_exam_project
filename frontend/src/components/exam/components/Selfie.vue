@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapMutations} from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Selfie',
   methods: {
-    ...mapActions(['Logout']), // 清除token和localStorage中的信息
+    ...mapMutations(['Logout']), // 清除token和localStorage中的信息
     handleLogout() {
       const that = this
 
@@ -48,14 +48,8 @@ export default {
         title: '提示',
         content: '确定退出登录 ?',
         onOk() {
-          that.Logout().then(() => {
-            window.location.reload()
-          }).catch(err => {
-            that.$message.error({
-              title: '错误',
-              description: err.message
-            })
-          })
+          that.Logout();
+          that.$router.push({name:'login'});
         },
         onCancel() {
         }
