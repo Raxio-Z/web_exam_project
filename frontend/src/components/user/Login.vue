@@ -264,8 +264,6 @@ export default {
       {
         console.log(res.data.token)
         this.userToken = 'Bearer ' + res.data.token;
-        // 将用户token保存到vuex中
-        this.changeLogin({ Authorization: this.userToken })
 
         // 将用户token保存到vuex和localStorage中
         this.Login({
@@ -284,7 +282,7 @@ export default {
       } else {
         this.$notification['error']({
           message: '错误',
-          description: '用户名或密码错误',
+          description: res.msg,
           duration: 4
         })
       }

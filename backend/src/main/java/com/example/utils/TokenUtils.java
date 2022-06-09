@@ -25,10 +25,10 @@ public class TokenUtils {
 
     private static UserMapper staticUserMapper;
 
-//    @PostConstruct
-//    public void init() {
-//        staticUserMapper = userMapper;
-//    }
+    @PostConstruct
+    public void init() {
+        staticUserMapper = userMapper;
+    }
 
     /**
      * 生成token
@@ -40,20 +40,20 @@ public class TokenUtils {
                 .sign(Algorithm.HMAC256(user.getUserPassword()));
     }
 
-//    /**
-//     * 获取token中的用户信息
-//     * @return
-//     */
-//    public static User getUser() {
-//        try {
-//            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//            String token = request.getHeader("token");
-//            String aud = JWT.decode(token).getAudience().get(0);
-//            Integer userId = Integer.valueOf(aud);
-//            return staticUserMapper.selectById(userId);
-//        } catch (Exception e) {
-//            log.error("解析token失败", e);
-//            return null;
-//        }
-//    }
+    /**
+     * 获取token中的用户信息
+     * @return
+     */
+    public static User getUser() {
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            String token = request.getHeader("token");
+            String aud = JWT.decode(token).getAudience().get(0);
+            Integer userId = Integer.valueOf(aud);
+            return staticUserMapper.selectById(userId);
+        } catch (Exception e) {
+            log.error("解析token失败", e);
+            return null;
+        }
+    }
 }
