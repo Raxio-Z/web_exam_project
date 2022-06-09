@@ -1,10 +1,12 @@
 package com.example.controller;
 
+import cn.hutool.db.Session;
 import com.example.common.Result;
 import com.example.entity.User;
 import com.example.mapper.UserMapper;
 import com.example.utils.SecurityUtils;
 import com.example.utils.TokenUtils;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,8 +32,8 @@ public class UserController {
             msg = "不存在该用户名";
             return Result.error("-1", msg);
         }
-        // !SecurityUtils.matchesPassword(user.getUserPassword(), res.getUserPassword())
-        if (!(res.getUserPassword().equals(user.getUserPassword()))) {
+
+        if (!SecurityUtils.matchesPassword(user.getUserPassword(), res.getUserPassword())) {
             msg = "输入密码错误";
             return Result.error("-1", msg);
         }
@@ -42,10 +44,20 @@ public class UserController {
         return Result.success(res);
     }
 
-    @GetMapping("/show")
-    @ResponseBody
-    public String show() {
-        User user = userMapper.selectById(1);
-        return user + "";
+    @PostMapping("/register")
+    public Result<?> register(@RequestBody User user){
+        String psd = user.getUserPassword();
+        user.setUserPassword(SecurityUtils.encodePassword(psd));
+        userMapper.insert(user);
+        return Result.success();
     }
+
+    //@PostMapping("/logout")
+
+//    @GetMapping("/show")
+//    @ResponseBody
+//    public String show() {
+//        User user = userMapper.selectById(1);
+//        return user + "";
+//    }
 }
