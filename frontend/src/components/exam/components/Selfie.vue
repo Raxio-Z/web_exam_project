@@ -6,7 +6,6 @@
       <a-dropdown>
         <a class="profile">
           <a-avatar style="backgroundColor:#87d068" icon="user"/>
-<!--          <span>{{ nickname() }}</span>-->
           <span class="usernameOn">CodingLogan</span>
         </a>
 
@@ -35,22 +34,21 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Selfie',
   methods: {
     ...mapActions(['Logout']), // 清除token和localStorage中的信息
-    ...mapGetters(['nickname', 'avatar']), // 从全局变量中获取用户昵称和头像
     handleLogout() {
       const that = this
 
       this.$confirm({
         title: '提示',
-        content: '真的要注销登录吗 ?',
+        content: '确定退出登录 ?',
         onOk() {
-          return that.Logout({}).then(() => {
+          that.Logout().then(() => {
             window.location.reload()
           }).catch(err => {
             that.$message.error({
