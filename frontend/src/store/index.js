@@ -14,13 +14,25 @@ const store = new Vuex.Store({
         Login(state, user) {
             state.Authorization = user.Authorization;
             localStorage.setItem('Authorization', user.Authorization);
-            localStorage.setItem('Username',user.Username);
+            localStorage.setItem('Username', user.Username);
         },
         //退出登录，清除token和localStorage中的数据
         Logout(state) {
             state.Authorization = '';
+
+            if (localStorage.getItem('Authorization'))
+                console.log(localStorage.getItem('Authorization'));
+            if (localStorage.getItem('Username'))
+                console.log(localStorage.getItem('Username'));
+
+            console.log('我是分隔符');
+
             localStorage.removeItem('Authorization');
             localStorage.removeItem('Username');
+            if (localStorage.getItem('Authorization'))
+                console.log(localStorage.getItem('Authorization'));
+            if (localStorage.getItem('Username'))
+                console.log(localStorage.getItem('Username'));
         }
     }
 
