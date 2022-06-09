@@ -256,12 +256,11 @@ export default {
 
     },
     //登录成功，进行跳转并弹出提示信息
-    loginResponse(res){
+    loginResponse(res) {
       //console.log(res)
       //console.log(res.data.userPassword)
       console.log(res)
-      if(res.code==='0')
-      {
+      if (res.code === '0') {
         console.log(res.data.token)
         this.userToken = 'Bearer ' + res.data.token;
 
@@ -351,7 +350,7 @@ export default {
     regResponce(res) {
       console.log(res)
 
-      if (res.code === 0) {
+      if (res.code === '0') {
         this.$router.push({name: 'user'})
 
         setTimeout(() => {
@@ -362,7 +361,7 @@ export default {
       } else {
         this.$notification['error']({
           message: '错误',
-          description: '用户名已注册',
+          description: res.msg,
           duration: 4
         })
       }
