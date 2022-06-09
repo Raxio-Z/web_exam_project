@@ -46,6 +46,13 @@ public class UserController {
 
     @PostMapping("/register")
     public Result<?> register(@RequestBody User user){
+        User res = userMapper.findByName(user.getUserUsername());
+        String msg= "";
+        if(res!=null)
+        {
+            msg = "用户名已经存在";
+            return Result.error("-1",msg);
+        }
         String psd = user.getUserPassword();
         user.setUserPassword(SecurityUtils.encodePassword(psd));
         userMapper.insert(user);
