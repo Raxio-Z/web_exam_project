@@ -14,7 +14,16 @@ const store = new Vuex.Store({
         Login(state, user) {
             state.Authorization = user.Authorization;
             localStorage.setItem('Authorization', user.Authorization);
+
+            // 设置一小时的有效期
+            setTimeout(() => {
+                localStorage.removeItem('Authorization')
+            }, 1000 * 60 * 60)
+
             localStorage.setItem('Username', user.Username);
+            setTimeout(() => {
+                localStorage.removeItem('Username')
+            }, 1000 * 60 * 60)
         },
         //退出登录，清除token和localStorage中的数据
         Logout(state) {
