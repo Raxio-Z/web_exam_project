@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="welcome">
     <div class="banner-wrapper">
       <!--    走马灯，用于展示-->
       <div class="banner-image-wrapper" style="opacity: 1;">
@@ -28,6 +28,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.welcome{
+  text-align: center;
+}
 .banner-wrapper {
   margin: 20px auto 0;
   height: 300px;

@@ -50,6 +50,7 @@ export default {
         onOk() {
           that.Logout();
           that.$router.push({name:'login'});
+
         },
         onCancel() {
         }

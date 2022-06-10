@@ -9,18 +9,14 @@
         </a>
       </div>
       <!--      头像部分  靠右放置-->
-<!--      <div class="selfie">-->
-<!--        <a-avatar style="backgroundColor:#87d068" icon="user" />-->
-<!--        <span class="username">CodeingLogan</span>-->
-<!--      </div>-->
-
       <div class="selfie">
         <selfie></selfie>
       </div>
 
       <a-menu theme="dark"
               mode="horizontal"
-              :default-selected-keys="['1']"
+              class="headMenu"
+              v-model="current"
               :style="{ lineHeight: '64px' }"
       >
 
@@ -85,12 +81,20 @@ export default {
   name: "BasicLayout",
   components:{
     Selfie
+  },
+  data(){
+    return {
+      current:['1']
+    }
   }
+
 }
 </script>
 
 <style lang="less" scoped>
-
+.headMenu{
+  text-align: center;
+}
 .logo1 {
   width: 250px;
   height: 30px;

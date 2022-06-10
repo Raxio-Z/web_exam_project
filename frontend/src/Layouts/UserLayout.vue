@@ -91,6 +91,7 @@ export default {
 
     .mid{
       height: 375px;
+      text-align: center;
     }
 
     .footer{

@@ -57,16 +57,6 @@ const routes = [
                 name: 'login',
                 component: () => import(/* webpackChunkName: "user" */ '../components/user/Login')
             },
-            // {
-            //     path: 'register',
-            //     name: 'register',
-            //     component: () => import(/* webpackChunkName: "user" */ '../components/user/Register')
-            // },
-            // {
-            //     path: 'register-result',
-            //     name: 'registerResult',
-            //     component: () => import(/* webpackChunkName: "user" */ '../components/user/RegisterResult')
-            // }
         ]
     }
 ]
@@ -82,7 +72,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/user/login') {
         var token1 = localStorage.getItem('Authorization');
         //没有token或token过期，跳到登录界面,否则跳到welcome，不允许访问login
-        if (token1 === null && token1 === '') {
+        if (token1 === null || token1 === '') {
             next();
         } else {
             next('/welcome');
