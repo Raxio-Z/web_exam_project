@@ -81,7 +81,12 @@ const router = new VueRouter({
 //设置路由导航守卫，注册全局前置守卫，判断用户是否登录
 router.beforeEach((to, from, next) => {
     if (to.path === '/user/login') {
-        next();
+        var token1 = localStorage.getItem('Authorization');
+        if(token1 === null||token1 ==='')
+            next();
+        else
+            next('/welcome');
+
     } else {
         var token = localStorage.getItem('Authorization');
         //没有token或token过期，跳到登录界面
