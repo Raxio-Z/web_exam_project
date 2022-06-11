@@ -49,7 +49,7 @@ export default {
         content: '确定退出登录 ?',
         onOk() {
           that.Logout();
-          that.$router.push({name:'login'});
+          that.$router.push({name: 'login'});
 
         },
         onCancel() {
@@ -62,8 +62,8 @@ export default {
 
 <style lang="less" scoped>
 
-.profile{
-  .usernameOn{
+.profile {
+  .usernameOn {
     margin-left: 5px;
     color: rgba(255, 255, 255, 0.95);
   }

@@ -347,16 +347,14 @@ export default {
           duration: 4
         })
         // callback(new Error('请再次输入密码'))
-      }
-      else if (this.userRePassword && this.regState.userPassword && this.userRePassword !== this.regState.userPassword) {
+      } else if (this.userRePassword && this.regState.userPassword && this.userRePassword !== this.regState.userPassword) {
         this.$notification['error']({
           message: '错误',
           description: '两次密码不一致',
           duration: 4
         })
         // callback(new Error('两次密码不一致'))
-      }
-      else {
+      } else {
         request.post("/user/register", this.regState)
             .then(res => this.regResponce(res))
             .catch(err => this.regFail(err))

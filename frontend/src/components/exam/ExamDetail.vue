@@ -1,7 +1,7 @@
 <template>
-<div>
-
-</div>
+  <div>
+    考试详情页
+  </div>
 </template>
 
 <script>

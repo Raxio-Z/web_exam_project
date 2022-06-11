@@ -58,7 +58,11 @@ const routes = [
                 component: () => import(/* webpackChunkName: "user" */ '../components/user/Login')
             },
         ]
-    }
+    },
+    {
+        path: '/exam/:id',
+        component: () => import(/* webpackChunkName: "fail" */ '../components/exam/ExamDetail')
+    },
 ]
 
 const router = new VueRouter({

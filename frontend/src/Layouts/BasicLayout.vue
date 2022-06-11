@@ -20,7 +20,7 @@
               :style="{ lineHeight: '64px' }"
       >
 
-        <a-menu-item key="1">
+        <a-menu-item key="welcome">
           <router-link :to="{name:'welcome'}">
             <div class="welcome">
               <a-icon type="home"/>
@@ -30,15 +30,15 @@
 
 
         </a-menu-item>
-        <a-menu-item key="2">
+        <a-menu-item key="examList">
           <router-link :to="{name:'examList'}">
             <div class="exam-list">
               <a-icon type="appstore"/>
-              <span>考试卡片</span>
+              <span>考试列表</span>
             </div>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="3">
+        <a-menu-item key="myExam">
           <router-link :to="{name:'myExam'}">
             <div class="my-exam">
               <a-icon type="book"/>
@@ -84,7 +84,7 @@ export default {
   },
   data(){
     return {
-      current:['1']
+      current:[this.$route.name],
     }
   }
 

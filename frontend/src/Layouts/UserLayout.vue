@@ -43,10 +43,10 @@ export default {
 
 <style lang="less" scoped>
 
-.user-layout{
+.user-layout {
   height: 100%;
 
-  .container{
+  .container {
     width: 100%;
     background: url("../assets/background.svg");
     background-size: 100%;
@@ -56,10 +56,11 @@ export default {
     a {
       text-decoration: none;
     }
-    .top{
+
+    .top {
       text-align: center;
 
-      .header{
+      .header {
         height: 44px;
         line-height: 44px;
       }
@@ -89,12 +90,12 @@ export default {
 
     }
 
-    .mid{
+    .mid {
       height: 375px;
       text-align: center;
     }
 
-    .footer{
+    .footer {
       position: absolute;
       width: 100%;
       bottom: 0;
@@ -102,13 +103,13 @@ export default {
       margin: 48px 0 24px;
       text-align: center;
 
-      .CodeAdd{
+      .CodeAdd {
         margin-bottom: 8px;
         font-size: 14px;
 
       }
 
-      .author,.lz,.cym{
+      .author, .lz, .cym {
         color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
       }

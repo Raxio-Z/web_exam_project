@@ -21,16 +21,17 @@ import Page1 from './components/Page1'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Welcome",
-  components:{
+  components: {
     Page1
   }
 }
 </script>
 
 <style lang="less" scoped>
-.welcome{
+.welcome {
   text-align: center;
 }
+
 .banner-wrapper {
   margin: 20px auto 0;
   height: 300px;
@@ -43,7 +44,7 @@ export default {
     position: center;
     right: 8%;
     width: 600px;
-    margin:0 auto;
+    margin: 0 auto;
     top: 0;
     bottom: 0;
     opacity: 0;

@@ -23,25 +23,30 @@
           <a-button type="primary" icon="plus" @click="$refs.createExamModal.create()">新建</a-button>&nbsp;
         </div>
 
-        <!--        <BootstrapTable-->
-        <!--            name="examTable"-->
-        <!--            ref="table"-->
-        <!--            :columns="columns"-->
-        <!--            :data="tableData"-->
-        <!--            :options="options"-->
-        <!--        />-->
-
         <a-table
             :columns="columns"
             :data-source="dataSource"
             :pagination="pagination"
             :loading="loading"
+            rowKey="serial"
             class="ExamTable"
         >
           <template #subCH='text'>
             {{ text === 'math' ? '数学' : text === 'physics' ? '物理' : '计算机' }}
           </template>
-          <a-button slot="actionTest">参加考试</a-button>
+
+          <template #tags='tags'>
+            <a-tag
+                :key="tags"
+                :color="tags === 'hard' ? 'volcano' : tags === 'mid'? 'geekblue' : 'green'"
+            >
+              {{ tags.toUpperCase() }}
+            </a-tag>
+          </template>
+
+          <template #actionTest='text,record'>
+            <a-button @click="handleJoin(record.serial)">参加考试</a-button>
+          </template>
 
         </a-table>
 
@@ -82,7 +87,6 @@ export default {
           title: '名称',
           dataIndex: 'name',
           ellipsis: true,
-          width: 250
         },
         {
           title: '科目',
@@ -93,6 +97,17 @@ export default {
             {text: '数学', value: 'math'},
             {text: '物理', value: 'physics'},
             {text: '计算机', value: 'computer'},
+          ],
+        },
+        {
+          title: '难度',
+          dataIndex: 'difficulty',
+          ellipsis: true,
+          scopedSlots: {customRender: 'tags'},    //开启插槽，插槽名为`subCH`
+          filters: [
+            {text: '难', value: 'hard'},
+            {text: '中', value: 'mid'},
+            {text: '易', value: 'easy'},
           ],
         },
         {
@@ -108,16 +123,16 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '150px',
           ellipsis: true,
-          scopedSlots: {customRender: 'actionTest'}
-        },
+          scopedSlots: {customRender: 'actionTest'},
+        }
       ],
       dataSource: [
         {
           serial: 1,
           name: '三角函数',
           subject: 'math',
+          difficulty: 'hard',
           score: 100,
           duration: 90
         }
@@ -129,6 +144,8 @@ export default {
   },
   methods: {
     handleJoin(id) {
+      console.log("serial是")
+      console.log(id)
       const routeUrl = this.$router.resolve({
         path: `/exam/${id}`
       })
@@ -176,7 +193,8 @@ export default {
       margin-top: 10px;
       font-size: 22px;
     }
-    .des{
+
+    .des {
       margin-top: 5px;
     }
   }
@@ -197,12 +215,12 @@ export default {
   }
 }
 
-.examlist{
+.examlist {
   text-align: center;
   margin: 0 auto;
   width: 85%;
 
-  .NewOne{
+  .NewOne {
     text-align: left;
   }
 
