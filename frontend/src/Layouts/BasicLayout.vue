@@ -9,22 +9,18 @@
         </a>
       </div>
       <!--      头像部分  靠右放置-->
-<!--      <div class="selfie">-->
-<!--        <a-avatar style="backgroundColor:#87d068" icon="user" />-->
-<!--        <span class="username">CodeingLogan</span>-->
-<!--      </div>-->
-
       <div class="selfie">
         <selfie></selfie>
       </div>
 
       <a-menu theme="dark"
               mode="horizontal"
-              :default-selected-keys="['1']"
+              class="headMenu"
+              v-model="current"
               :style="{ lineHeight: '64px' }"
       >
 
-        <a-menu-item key="1">
+        <a-menu-item key="welcome">
           <router-link :to="{name:'welcome'}">
             <div class="welcome">
               <a-icon type="home"/>
@@ -34,15 +30,15 @@
 
 
         </a-menu-item>
-        <a-menu-item key="2">
+        <a-menu-item key="examList">
           <router-link :to="{name:'examList'}">
             <div class="exam-list">
               <a-icon type="appstore"/>
-              <span>考试卡片</span>
+              <span>考试列表</span>
             </div>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="3">
+        <a-menu-item key="myExam">
           <router-link :to="{name:'myExam'}">
             <div class="my-exam">
               <a-icon type="book"/>
@@ -85,12 +81,20 @@ export default {
   name: "BasicLayout",
   components:{
     Selfie
+  },
+  data(){
+    return {
+      current:[this.$route.name],
+    }
   }
+
 }
 </script>
 
 <style lang="less" scoped>
-
+.headMenu{
+  text-align: center;
+}
 .logo1 {
   width: 250px;
   height: 30px;
