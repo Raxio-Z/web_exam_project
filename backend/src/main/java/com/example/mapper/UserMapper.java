@@ -5,6 +5,5 @@ import com.example.entity.User;
 import org.apache.ibatis.annotations.Select;
 
 public interface UserMapper extends BaseMapper<User> {
-    @Select("select * from user where user_username = #{userName}")
-    public User findByName(String userName);
+    // 使用注解式开发，省去了配置mapper.xml文件，关联类的过程，在mybatis中一般叫做repository
 }

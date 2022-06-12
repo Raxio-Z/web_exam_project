@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+
 @TableName("user")
-@Data
+@Data   // @Data注释自动为类生成get，set和构造函数
 public class User {
     // 自增
     @TableId(type= IdType.AUTO)

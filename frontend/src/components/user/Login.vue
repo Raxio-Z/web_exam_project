@@ -262,8 +262,8 @@ export default {
       console.log(res)
       if (res.code === '0') {
         console.log(res.data.token)
-        this.userToken = 'Bearer ' + res.data.token;
-
+        //this.userToken = 'Bearer ' + res.data.token;
+        this.userToken = res.data.token;
         // 将用户token保存到vuex和localStorage中
         this.Login({
           Authorization: this.userToken

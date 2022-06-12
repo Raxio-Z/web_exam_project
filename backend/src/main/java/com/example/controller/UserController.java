@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import cn.hutool.db.Session;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.entity.User;
 import com.example.mapper.UserMapper;
@@ -10,6 +12,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -18,15 +22,12 @@ public class UserController {
     @Resource
     UserMapper userMapper;
 
-    @PostMapping
-    public Result<?> save(@RequestBody User user) {
-        userMapper.insert(user);
-        return Result.success();
-    }
 
     @PostMapping("/login")
     public Result<?> login(@RequestBody User user) {
-        User res = userMapper.findByName(user.getUserUsername());
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_username",user.getUserUsername());
+        User res = userMapper.selectOne(wrapper);
         String msg = "";
         if (res == null) {
             msg = "不存在该用户名";
@@ -46,7 +47,10 @@ public class UserController {
 
     @PostMapping("/register")
     public Result<?> register(@RequestBody User user){
-        User res = userMapper.findByName(user.getUserUsername());
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_username",user.getUserUsername());
+        User res = userMapper.selectOne(wrapper);
+
         String msg= "";
         if(res!=null)
         {
@@ -58,6 +62,8 @@ public class UserController {
         userMapper.insert(user);
         return Result.success();
     }
+
+
 
     //@PostMapping("/logout")
 

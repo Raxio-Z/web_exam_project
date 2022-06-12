@@ -140,7 +140,7 @@ export default {
     }
   },
   mounted() {
-    //this.loadAll()
+    this.loadAll()
   },
   methods: {
     handleJoin(id) {
@@ -156,9 +156,9 @@ export default {
     },
     loadAll() {
       this.loading = true;
-      request.post("/exam")
+      request.get("/exam/all")
           .then(res => {
-            if (res.code === 0) {
+            if (res.code === '0') {
               this.dataSource = res.data
               this.loading = false;
             } else {
