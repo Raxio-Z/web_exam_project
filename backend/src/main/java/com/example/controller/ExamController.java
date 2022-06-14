@@ -76,7 +76,7 @@ public class ExamController {
         exam.setExamRadioPoints(createVo.getRadioScore());
         exam.setExamTimeLimit(createVo.getElapse());
         exam.setExamName(createVo.getName());
-        exam.setExamLevelId(createVo.getLevels());
+        exam.setExamLevelId(createVo.getLevel());
 
 
         List<QuestionSelectVo> questions = new ArrayList<>();

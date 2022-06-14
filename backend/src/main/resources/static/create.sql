@@ -117,7 +117,8 @@ insert into question(`name`,type_id) values('判断1',3);
 insert into question(`name`,type_id) values('判断2',3);
 insert into question(`name`,type_id) values('判断3',3);
 
-
+select * from question;
+select * from exam;
 
 
 

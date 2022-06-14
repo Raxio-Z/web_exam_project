@@ -21,6 +21,6 @@ public interface ExamMapper extends BaseMapper<Exam> {
     @Select("select id as ExamCategoryId,name as ExamCategoryName from exam_category")
     List<ExamCategory> findAllExamCategories();
 
-    @Select("select id as questionLevelId,name as questionLevelName from question_level")
+    @Select("select id as questionLevelId,name as questionLevelName from exam_level")
     List<QuestionLevel> findAllQuestionLevels();
 }
