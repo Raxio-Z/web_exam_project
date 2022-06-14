@@ -44,12 +44,26 @@
                 style="width: 120px"
                 v-decorator="['subject', {rules: [{required: true}]}]"
             >
-              <a-select-option v-for="category in categories" :value="category.examCategoryId" :key="category.examCategoryId">
+              <a-select-option v-for="category in categories" :key="category.examCategoryId">
                 {{ category.examCategoryName }}
               </a-select-option>
             </a-select>
 
-            <!--            <a-textarea :rows="2" v-decorator="['desc', {rules: [{required: true}]}]"></a-textarea>-->
+          </a-form-item>
+          <a-form-item
+              label="难度"
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+          >
+            <a-select
+                style="width: 120px"
+                v-decorator="['level', {rules: [{required: true}]}]"
+            >
+              <a-select-option v-for="level in levels" :key="level.questionLevelId">
+                {{ level.questionLevelName }}
+              </a-select-option>
+            </a-select>
+
           </a-form-item>
         </div>
 
@@ -208,7 +222,8 @@ export default {
       checks: [],
       // 判断题对象列表
       judges: [],
-      categories:[]
+      categories: [],
+      levels: []
     }
   },
   methods: {
@@ -217,57 +232,58 @@ export default {
       this.visible = true
       //从后端数据获取单选题、多选题和判断题的列表
       // getExamQuestionTypeList().then(res => {
-        request.get('exam/question/select').then(res => {
-          console.log(res)
-          if (res.code === '0') {
-            console.log(res.data)
-            this.radios = res.data.radios
-            this.checks = res.data.checks
-            this.judges = res.data.judges
-            this.categories = res.data.categories
-          } else {
-            this.$notification.error({
-              message: '获取问题列表失败',
-              description: res.msg
-            })
-          }
-        }).catch(err => {
-          // 失败就弹出警告消息
+      request.get('exam/question/select').then(res => {
+        console.log(res)
+        if (res.code === '0') {
+          console.log(res.data)
+          this.radios = res.data.radios
+          this.checks = res.data.checks
+          this.judges = res.data.judges
+          this.categories = res.data.categories
+          this.levels = res.data.levels
+        } else {
           this.$notification.error({
             message: '获取问题列表失败',
-            description: err.message
+            description: res.msg
           })
+        }
+      }).catch(err => {
+        // 失败就弹出警告消息
+        this.$notification.error({
+          message: '获取问题列表失败',
+          description: err.message
         })
-        // this.radios = [
-        //   {
-        //     name: '单选1',
-        //     id: 1
-        //   },
-        //   {
-        //     name: "单选2",
-        //     id: 2
-        //   }
-        // ]
-        // this.checks = [
-        //   {
-        //     name: '多选3',
-        //     id: 3
-        //   },
-        //   {
-        //     name: "多选4",
-        //     id: 4
-        //   }
-        // ]
-        // this.judges = [
-        //   {
-        //     name: '判断5',
-        //     id: 5
-        //   },
-        //   {
-        //     name: "判断6",
-        //     id: 6
-        //   }
-        // ]
+      })
+      // this.radios = [
+      //   {
+      //     name: '单选1',
+      //     id: 1
+      //   },
+      //   {
+      //     name: "单选2",
+      //     id: 2
+      //   }
+      // ]
+      // this.checks = [
+      //   {
+      //     name: '多选3',
+      //     id: 3
+      //   },
+      //   {
+      //     name: "多选4",
+      //     id: 4
+      //   }
+      // ]
+      // this.judges = [
+      //   {
+      //     name: '判断5',
+      //     id: 5
+      //   },
+      //   {
+      //     name: "判断6",
+      //     id: 6
+      //   }
+      // ]
     },
     popupScroll() {
       console.log('popupScroll')
