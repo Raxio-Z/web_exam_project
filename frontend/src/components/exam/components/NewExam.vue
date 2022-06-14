@@ -44,18 +44,12 @@
                 style="width: 120px"
                 v-decorator="['subject', {rules: [{required: true}]}]"
             >
-              <a-select-option value="math">
-                数学
-              </a-select-option>
-              <a-select-option value="physics">
-                物理
-              </a-select-option>
-              <a-select-option value="computer">
-                计算机
+              <a-select-option v-for="category in categories" :value="category.examCategoryId" :key="category.examCategoryId">
+                {{ category.examCategoryName }}
               </a-select-option>
             </a-select>
 
-<!--            <a-textarea :rows="2" v-decorator="['desc', {rules: [{required: true}]}]"></a-textarea>-->
+            <!--            <a-textarea :rows="2" v-decorator="['desc', {rules: [{required: true}]}]"></a-textarea>-->
           </a-form-item>
         </div>
 
@@ -213,71 +207,67 @@ export default {
       // 多选题对象列表
       checks: [],
       // 判断题对象列表
-      judges: []
+      judges: [],
+      categories:[]
     }
   },
   methods: {
     // 点击新建按钮之后调用create函数获取问题列表
     create() {
       this.visible = true
-      // 从后端数据获取单选题、多选题和判断题的列表
-      //getExamQuestionTypeList().then(res => {
-
-
-      // request.post('url').then(res => {
-      //   console.log(res)
-      //   if (res.code === 0) {
-      //     console.log(res.data)
-      //     this.radios = res.data.radios
-      //     this.checks = res.data.checks
-      //     this.judges = res.data.judges
-      //   } else {
-      //     this.$notification.error({
-      //       message: '获取问题列表失败',
-      //       description: res.msg
-      //     })
-      //   }
-      // }).catch(err => {
-      //   // 失败就弹出警告消息
-      //   this.$notification.error({
-      //     message: '获取问题列表失败',
-      //     description: err.message
-      //   })
-      // })
-
-      this.radios=[
-        {
-          name:'单选1',
-          id:1
-        },
-        {
-          name:"单选2",
-          id:2
-        }
-      ]
-      this.checks=[
-        {
-          name:'多选3',
-          id:3
-        },
-        {
-          name:"多选4",
-          id:4
-        }
-      ]
-      this.judges=[
-        {
-          name:'判断5',
-          id:5
-        },
-        {
-          name:"判断6",
-          id:6
-        }
-      ]
-
-
-
+      //从后端数据获取单选题、多选题和判断题的列表
+      // getExamQuestionTypeList().then(res => {
+        request.get('exam/question/select').then(res => {
+          console.log(res)
+          if (res.code === '0') {
+            console.log(res.data)
+            this.radios = res.data.radios
+            this.checks = res.data.checks
+            this.judges = res.data.judges
+            this.categories = res.data.categories
+          } else {
+            this.$notification.error({
+              message: '获取问题列表失败',
+              description: res.msg
+            })
+          }
+        }).catch(err => {
+          // 失败就弹出警告消息
+          this.$notification.error({
+            message: '获取问题列表失败',
+            description: err.message
+          })
+        })
+        // this.radios = [
+        //   {
+        //     name: '单选1',
+        //     id: 1
+        //   },
+        //   {
+        //     name: "单选2",
+        //     id: 2
+        //   }
+        // ]
+        // this.checks = [
+        //   {
+        //     name: '多选3',
+        //     id: 3
+        //   },
+        //   {
+        //     name: "多选4",
+        //     id: 4
+        //   }
+        // ]
+        // this.judges = [
+        //   {
+        //     name: '判断5',
+        //     id: 5
+        //   },
+        //   {
+        //     name: "判断6",
+        //     id: 6
+        //   }
+        // ]
     },
     popupScroll() {
       console.log('popupScroll')
@@ -312,10 +302,10 @@ export default {
 
           // ToDo 需要向后端传参数value，怎么传
           // TODO 地址是多少
-          request.post('url', values).then(res => {
+          request.post('/exam/create', values).then(res => {
             // 成功就跳转到结果页面
             console.log(res)
-            if (res.code === 0) {
+            if (res.code === '0') {
               this.$notification.success({
                 message: '创建成功',
                 description: '考试创建成功'
@@ -422,7 +412,6 @@ export default {
         }
       }
     }
-
   }
 }
 </script>

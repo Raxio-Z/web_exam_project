@@ -8,6 +8,7 @@ drop table if exists `question`;
 drop table if exists `question_category`;
 drop table if exists `question_level`;
 drop table if exists `question_option`;
+drop table if exists `question_type`;
 
 create table user(
 	user_id integer key auto_increment,
@@ -23,13 +24,16 @@ create table user(
 
 create table exam(
 	id integer key auto_increment,
-    `name` varchar(20),
+    `name` varchar(20) unique not null,
     category_id integer,
     level_id integer,
     score integer,
     time_limit integer,
     `description` text,
     question_ids varchar(200),
+    radio_points integer,
+    check_points integer,
+    judge_points integer,
     create_date date,
 	update_date date
 );
@@ -49,11 +53,11 @@ create table exam_level(
 create table question(
 	id integer key auto_increment,
     `name` varchar(20),
-    score integer,
     level_id integer,
     category_id integer,
     creator_id integer,
     option_id integer,
+    type_id integer,
     `description` text,
 	create_date date,
 	update_date date
@@ -77,9 +81,16 @@ create table question_option(
     `description` text
 );
 
-insert into exam_category(`name`) values('math');
-insert into exam_category(`name`) values('physics');
-insert into exam_category(`name`) values('computer');
+create table question_type(
+	id integer key auto_increment,
+    `type` varchar(20)
+);
+
+insert into exam_category(`name`) values('数学');
+insert into exam_category(`name`) values('物理');
+insert into exam_category(`name`) values('计算机');
+insert into exam_category(`name`) values('化学');
+
 
 insert into exam_level(`name`) values('hard');
 insert into exam_level(`name`) values('mid');
@@ -91,6 +102,23 @@ insert into exam(`name`,category_id,level_id,score,time_limit)
 	values('线性代数',1,2,100,90);
 insert into exam(`name`,category_id,level_id,score,time_limit) 
 	values('算法',3,2,100,120);
+    
+insert into question_type(id,`type`) values(1,'radio');
+insert into question_type(id,`type`) values(2,'check');
+insert into question_type(id,`type`) values(3,'judge');
+
+insert into question(`name`,type_id) values('单选1',1);
+insert into question(`name`,type_id) values('单选2',1);
+insert into question(`name`,type_id) values('单选3',1);
+insert into question(`name`,type_id) values('多选1',2);
+insert into question(`name`,type_id) values('多选2',2);
+insert into question(`name`,type_id) values('多选3',2);
+insert into question(`name`,type_id) values('判断1',3);
+insert into question(`name`,type_id) values('判断2',3);
+insert into question(`name`,type_id) values('判断3',3);
+
+
+
 
 
 

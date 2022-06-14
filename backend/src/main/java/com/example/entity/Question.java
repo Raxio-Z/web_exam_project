@@ -15,8 +15,8 @@ public class Question {
     @TableField(value="name")
     private String questionName;
 
-    @TableField(value="score")
-    private Integer questionScore;
+//    @TableField(value="score")
+//    private Integer questionScore;
 
     @TableField(value="level_id")
     private Integer questionLevelId;
@@ -30,7 +30,7 @@ public class Question {
     @TableField(value="option_id")
     private Integer questionOptionId;
 
-    @TableField(value="type")
+    @TableField(value="type_id")
     private Integer questionTypeId;
 
     @TableField(value="description")
@@ -41,7 +41,6 @@ public class Question {
 
     @TableField(value="update_date",fill = FieldFill.INSERT_UPDATE)
     private Date questionUpdateDate;
-
     // 种类
 
 }

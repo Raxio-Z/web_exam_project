@@ -15,10 +15,10 @@ public class Exam {
     private String examName;
 
     @TableField(value = "category_id")
-    private String examCategoryId;
+    private Integer examCategoryId;
 
     @TableField(value = "level_id")
-    private String examLevelId;
+    private Integer examLevelId;
 
     @TableField(value = "score")
     private Integer examScore;
@@ -32,6 +32,15 @@ public class Exam {
     // 存储该考试包含的所有问题的id，使用'_'分隔
     @TableField(value="question_ids")
     private String examQuestionIds;
+
+    @TableField(value="radio_points")
+    private Integer examRadioPoints;
+
+    @TableField(value="check_points")
+    private Integer examCheckPoints;
+
+    @TableField(value="judge_points")
+    private Integer examJudgePoints;
 
     @TableField(value="create_date",fill= FieldFill.INSERT)
     private Date examCreateDate;
