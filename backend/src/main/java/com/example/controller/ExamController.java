@@ -72,8 +72,7 @@ public class ExamController {
         exam.setExamRadioPoints(createVo.getRadioScore());
         exam.setExamTimeLimit(createVo.getElapse());
         exam.setExamName(createVo.getName());
-        exam.setExamScore(createVo.getScore());
-        exam.setExamLevelId(createVo.getLevel());
+        exam.setExamLevelId(createVo.getLevels());
 
 
         List<QuestionSelectVo> questions = new ArrayList<>();
@@ -84,8 +83,23 @@ public class ExamController {
 
         StringBuilder questionIds = new StringBuilder();
         boolean flag = true;
+        int score = 0;
+        Integer radioPoints = exam.getExamRadioPoints();
+        Integer checkPoints = exam.getExamCheckPoints();
+        Integer judgePoints = exam.getExamJudgePoints();
         for (QuestionSelectVo t : questions) {
             if (t.getChecked()) {
+                switch (t.getType()) {
+                    case "radio":
+                        score += radioPoints;
+                        break;
+                    case "check":
+                        score += checkPoints;
+                        break;
+                    case "judge":
+                        score += judgePoints;
+                        break;
+                }
                 if (flag) {
                     questionIds.append(t.getId());
                     flag = false;
@@ -94,6 +108,7 @@ public class ExamController {
             }
         }
         exam.setExamQuestionIds(questionIds.toString());
+        exam.setExamScore(score);
         try {
             examMapper.insert(exam);
             return Result.success();

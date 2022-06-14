@@ -27,19 +27,14 @@ public class ExamCreateVo {
     private Integer elapse;
 
     // 难度
-    private Integer level;
+    private Integer levels;
 
-    private Integer score;
 
-    public Integer getLevel() {
-        if (level == null)
+    public Integer getLevels() {
+        if (levels == null)
             return 2;
-        return level;
+        return levels;
     }
 
-    public Integer getScore() {
-        if (score == null)
-            return 100;
-        return score;
-    }
+
 }
