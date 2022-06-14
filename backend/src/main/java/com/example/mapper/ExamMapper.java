@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Exam;
 import com.example.entity.ExamCategory;
+import com.example.entity.QuestionLevel;
 import com.example.vo.ExamVo;
 import com.example.vo.QuestionSelectVo;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,7 @@ public interface ExamMapper extends BaseMapper<Exam> {
 
     @Select("select id as ExamCategoryId,name as ExamCategoryName from exam_category")
     List<ExamCategory> findAllExamCategories();
+
+    @Select("select id as questionLevelId,name as questionLevelName from question_level")
+    List<QuestionLevel> findAllQuestionLevels();
 }

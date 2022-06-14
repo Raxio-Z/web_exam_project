@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.entity.Exam;
 import com.example.entity.ExamCategory;
+import com.example.entity.QuestionLevel;
 import com.example.mapper.ExamMapper;
 import com.example.vo.ExamCreateVo;
 import com.example.vo.ExamVo;
@@ -44,6 +45,7 @@ public class ExamController {
         List<QuestionSelectVo> radios = null;
         List<QuestionSelectVo> checks = null;
         List<QuestionSelectVo> judges = null;
+        List<QuestionLevel> levels = null;
         Map<String, Object> data = new HashMap<>();
         Result<?> res;
         try {
@@ -51,10 +53,12 @@ public class ExamController {
             checks = examMapper.findQuestionsByTypeId(2);
             judges = examMapper.findQuestionsByTypeId(3);
             categories = examMapper.findAllExamCategories();
+            levels = examMapper.findAllQuestionLevels();
             data.put("radios", radios);
             data.put("checks", checks);
             data.put("judges", judges);
             data.put("categories", categories);
+            data.put("levels", levels);
             res = Result.success(data);
         } catch (Exception e) {
             e.printStackTrace();
