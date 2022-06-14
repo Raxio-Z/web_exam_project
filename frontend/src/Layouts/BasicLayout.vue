@@ -1,7 +1,7 @@
 <template>
 
   <a-layout class="index-header">
-    <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+    <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' ,background:'white'}">
       <div class="logo1">
         <a href="/">
           <img src="../assets/logo.svg" class="logo" alt="logo">
@@ -13,7 +13,7 @@
         <selfie></selfie>
       </div>
 
-      <a-menu theme="dark"
+      <a-menu theme="light"
               mode="horizontal"
               class="headMenu"
               v-model="current"
@@ -64,7 +64,7 @@
       </div>
       <div class="author">
         2022&nbsp;
-        <a class="lz" href="https://github.com/RealLiuzheng">RealLiuZheng</a>
+        <a class="lz" href="https://github.com/RealLiuzheng">RealLiuzheng</a>
         &
         <a class="cym" href="https://github.com/codejoker-c">codejoker-c</a>
       </div>
@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+
+
 .headMenu{
   text-align: center;
 }
@@ -110,7 +113,7 @@ export default {
 
   .title {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(0, 0, 0, 0.85);
     font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
     font-weight: 600;
     position: relative;
@@ -125,7 +128,7 @@ export default {
 
   .username{
     margin-left: 5px;
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(0, 0, 0, 0.85);
   }
 }
 

@@ -65,7 +65,7 @@ export default {
 .profile {
   .usernameOn {
     margin-left: 5px;
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(0, 0, 0, 0.85);
   }
 }
 
