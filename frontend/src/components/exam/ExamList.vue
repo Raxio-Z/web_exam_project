@@ -31,9 +31,6 @@
             rowKey="serial"
             class="ExamTable"
         >
-          <template #subCH='text'>
-            {{ text === 'math' ? '数学' : text === 'physics' ? '物理' : '计算机' }}
-          </template>
 
           <template #tags='tags'>
             <a-tag
@@ -97,7 +94,6 @@ export default {
           title: '科目',
           dataIndex: 'subject',
           ellipsis: true,
-          scopedSlots: {customRender: 'subCH'},    //开启插槽，插槽名为`subCH`
           filters: [
             {text: '数学', value: 'math'},
             {text: '物理', value: 'physics'},
