@@ -39,4 +39,6 @@ public class Exam {
     @TableField(value="update_date",fill=FieldFill.INSERT_UPDATE)
     private Date examUpdateDate;
 
+
+    // 选题分值
 }

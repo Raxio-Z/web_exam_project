@@ -30,6 +30,9 @@ public class Question {
     @TableField(value="option_id")
     private Integer questionOptionId;
 
+    @TableField(value="type")
+    private Integer questionTypeId;
+
     @TableField(value="description")
     private String questionDescription;
 
@@ -38,5 +41,7 @@ public class Question {
 
     @TableField(value="update_date",fill = FieldFill.INSERT_UPDATE)
     private Date questionUpdateDate;
+
+    // 种类
 
 }

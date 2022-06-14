@@ -10,4 +10,5 @@ public class ExamVo {
     private String difficulty;
     private Integer score;
     private Integer duration;
+
 }
