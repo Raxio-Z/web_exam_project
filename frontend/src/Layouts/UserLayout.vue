@@ -25,7 +25,7 @@
         </div>
         <div class="author">
           2022&nbsp;
-          <a class="lz" href="https://github.com/RealLiuzheng">RealLiuZheng</a>
+          <a class="lz" href="https://github.com/RealLiuzheng">RealLiuzheng</a>
           &
           <a class="cym" href="https://github.com/codejoker-c">codejoker-c</a>
         </div>
@@ -110,7 +110,6 @@ export default {
       }
 
       .author, .lz, .cym {
-        color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
       }
     }

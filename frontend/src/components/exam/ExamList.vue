@@ -49,7 +49,8 @@
           </template>
 
         </a-table>
-
+        <!-- ref是为了方便用this.$refs.modal直接引用 -->
+        <new-exam ref="createExamModal" @ok="handleOk"/>
 
       </a-card>
 
@@ -61,9 +62,13 @@
 
 <script>
 import request from "@/utils/request";
+import NewExam from "@/components/exam/components/NewExam";
 
 export default {
   name: "ExamList",
+  components: {
+    NewExam
+  },
   data() {
     return {
       description: '您可以选择一个考试',
@@ -160,6 +165,7 @@ export default {
           .then(res => {
             if (res.code === '0') {
               this.dataSource = res.data
+              this.pagination.total=this.dataSource.length
               this.loading = false;
             } else {
               this.$notification.error({
@@ -168,7 +174,6 @@ export default {
               })
             }
           })
-
     }
   }
 }
@@ -223,7 +228,5 @@ export default {
   .NewOne {
     text-align: left;
   }
-
 }
-
 </style>

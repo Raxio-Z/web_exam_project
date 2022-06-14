@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 import UserLayout from "@/Layouts/UserLayout";
 import BasicLayout from "@/Layouts/BasicLayout";
-// import HomeView from "@/views/HomeView";
 
 
 Vue.use(VueRouter)

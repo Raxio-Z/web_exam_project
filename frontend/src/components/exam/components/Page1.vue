@@ -15,14 +15,14 @@ import List from './List'
 const featuresCN = [
   {
     title: '优雅美观',
-    content: '基于 Ant Design 体系精心设计',
+    content: '基于 Ant Design Vue精心设计',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/VriUmzNjDnjoFoFFZvuh.svg',
     color: '#13C2C2',
     shadowColor: 'rgba(19,194,194,.12)'
   },
   {
     title: '常见设计模式',
-    content: '提炼自中后台应用的典型页面和场景',
+    content: '借鉴常用网站设计理念',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/smwQOoxCjXVbNAKMqvWk.svg',
     color: '#2F54EB',
     shadowColor: 'rgba(47,84,235,.12)'
@@ -35,22 +35,22 @@ const featuresCN = [
     shadowColor: 'rgba(245,34,45,.12)'
   },
   {
-    title: '响应式',
-    content: '针对不同屏幕大小设计',
+    title: '实用场景',
+    content: '针对线上考试特点设计',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/BISfzKcCNCYFmTYcUygW.svg',
     color: '#1AC44D',
     shadowColor: 'rgba(26,196,77,.12)'
   },
   {
     title: '最佳实践',
-    content: '良好的工程实践助你持续产出高质量代码',
+    content: 'Web技术课程实践作业',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/pbmKMSFpLurLALLNliUQ.svg',
     color: '#FA8C16',
     shadowColor: 'rgba(250,140,22,.12)'
   },
   {
     title: 'UI 测试',
-    content: '自动化测试保障前端产品质量',
+    content: '测试多种前端控件确保美观',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/RpJIQitGbSCHwLMimybX.svg',
     color: '#1890FF',
     shadowColor: 'rgba(24,144,255,.12)'

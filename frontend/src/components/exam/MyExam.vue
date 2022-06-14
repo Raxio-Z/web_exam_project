@@ -25,6 +25,9 @@
             rowKey="serial"
             class="MyExam"
         >
+          <template #subCH='text'>
+            {{ text === 'math' ? '数学' : text === 'physics' ? '物理' : '计算机' }}
+          </template>
           <template #tags='tags'>
             <a-tag
                 :key="tags"
@@ -44,6 +47,8 @@
 </template>
 
 <script>
+
+import request from "@/utils/request";
 
 export default {
   name: "MyExam",
@@ -86,7 +91,7 @@ export default {
           title: '难度',
           dataIndex: 'difficulty',
           ellipsis: true,
-          scopedSlots: {customRender: 'tags'},    //开启插槽，插槽名为`subCH`
+          scopedSlots: {customRender: 'tags'},    //开启插槽，插槽名为`tags`
           filters: [
             {text: '难', value: 'hard'},
             {text: '中', value: 'mid'},
@@ -114,7 +119,7 @@ export default {
         {
           serial: 1,
           name: '三角函数',
-          subject: 'math',
+          subject: '数学',
           difficulty: 'hard',
           score: 100,
           duration: 90,
@@ -124,7 +129,20 @@ export default {
     }
   },
   mounted() {
-    //this.loadAll()
+    this.loading = true;
+    request.get("/exam/all")
+        .then(res => {
+          if (res.code === '0') {
+            this.dataSource = res.data
+            this.pagination.total=this.dataSource.length
+            this.loading = false;
+          } else {
+            this.$notification.error({
+              message: '获取我的考试列表失败',
+              description: res.msg
+            })
+          }
+        })
   },
 
 }
