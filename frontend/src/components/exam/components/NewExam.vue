@@ -241,6 +241,14 @@ export default {
           this.judges = res.data.judges
           this.categories = res.data.categories
           this.levels = res.data.levels
+          for (var i = 0; i < this.levels.length; i++) {
+            if (this.levels[i].questionLevelName === 'hard')
+              this.levels[i].questionLevelName = '难'
+            else if (this.levels[i].questionLevelName === 'mid')
+              this.levels[i].questionLevelName = '中'
+            else if (this.levels[i].questionLevelName === 'easy')
+              this.levels[i].questionLevelName = '易'
+          }
         } else {
           this.$notification.error({
             message: '获取问题列表失败',
