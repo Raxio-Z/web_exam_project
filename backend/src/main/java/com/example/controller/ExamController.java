@@ -78,7 +78,6 @@ public class ExamController {
         exam.setExamName(createVo.getName());
         exam.setExamLevelId(createVo.getLevel());
 
-
         List<QuestionSelectVo> questions = new ArrayList<>();
         questions.addAll(createVo.getChecks());
         questions.addAll(createVo.getJudges());
