@@ -285,7 +285,7 @@ export default {
 
     },
     submitResponse() {
-      request.get("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
+      request.post("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
           .then(res => {
             if (res.code === '0') {
               // 考试交卷，后端判分完成，然后跳转到我的考试界面
