@@ -124,7 +124,6 @@
 import Selfie from "@/components/exam/components/Selfie";
 import request, {finishExam} from "@/utils/request";
 
-
 export default {
   name: 'ExamDetail',
   components: {
@@ -156,6 +155,8 @@ export default {
   mounted() {
     this.answersMap = new Map()
     this.starMap = new Map()
+    //添加监视
+    document.addEventListener('visibilitychange', this.monitor)
     // 从后端获取考试的详细信息，渲染到考试详情里
 
     //TODO 修改url值
@@ -176,8 +177,6 @@ export default {
           }
         })
 
-
-
     // this.currentQuestion = {
     //   questionId:'',
     //   type: '单选题',
@@ -194,8 +193,25 @@ export default {
     //   ]
     // }
   },
+  destroyed() {
+    document.removeEventListener('visibilitychange', this.monitor)
+  },
   methods: {
-
+    //监视是否切屏
+    monitor(e) {
+      let isExist = e.target.visibilityState
+      console.log(isExist)
+      if (isExist === 'visible') {
+        this.$notification.open({
+          message: '注意！',
+          description: '请不要切屏哦！',
+          duration: 2,
+          icon: <a-icon type="smile" style="color: #108ee9"/>,
+        });
+      } else {
+        console.log(new Date().toLocaleString(), `您已离开页面！`)
+      }
+    },
     getQuestionDetail(questionId) {
       // 问题切换时从后端拿到问题详情，渲染到前端content中
       const that = this
