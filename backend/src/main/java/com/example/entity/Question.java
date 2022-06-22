@@ -27,8 +27,8 @@ public class Question {
     @TableField(value="creator_id")
     private Integer questionCreatorId;
 
-    @TableField(value="option_id")
-    private Integer questionOptionId;
+    @TableField(value="option_ids")
+    private String questionOptionIds;
 
     @TableField(value="type_id")
     private Integer questionTypeId;

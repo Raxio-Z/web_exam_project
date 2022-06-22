@@ -3,23 +3,18 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
-import com.example.entity.Exam;
-import com.example.entity.ExamCategory;
-import com.example.entity.Question;
-import com.example.entity.QuestionLevel;
+import com.example.entity.*;
 import com.example.mapper.ExamMapper;
 import com.example.mapper.QuestionMapper;
+import com.example.mapper.QuestionOptionMapper;
+import com.example.utils.DecoderUtils;
 import com.example.utils.TokenUtils;
-import com.example.vo.ExamCreateVo;
-import com.example.vo.ExamDetailVo;
-import com.example.vo.ExamVo;
-import com.example.vo.QuestionSelectVo;
+import com.example.vo.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -29,6 +24,9 @@ public class ExamController {
     ExamMapper examMapper;
     @Resource
     QuestionMapper questionMapper;
+
+    @Resource
+    QuestionOptionMapper questionOptionMapper;
 
     @GetMapping("/all")
     Result<?> getExamAll() {
@@ -103,7 +101,7 @@ public class ExamController {
         for (QuestionSelectVo t : questions) {
             if (t.getChecked()) {
                 switch (t.getType()) {
-                    case "radio":
+                    case "单选题":
                         score += radioPoints;
                         if (flag1) {
                             radioIds.append(t.getId());
@@ -111,7 +109,7 @@ public class ExamController {
                         } else
                             radioIds.append("-").append(t.getId());
                         break;
-                    case "check":
+                    case "多选题":
                         score += checkPoints;
                         if (flag2) {
                             checkIds.append(t.getId());
@@ -119,7 +117,7 @@ public class ExamController {
                         } else
                             checkIds.append("-").append(t.getId());
                         break;
-                    case "judge":
+                    case "判断题":
                         score += judgePoints;
                         if (flag3) {
                             judgeIds.append(t.getId());
@@ -149,15 +147,28 @@ public class ExamController {
     Result<?> getMyExam()
     {
         Integer Id = TokenUtils.getUserId();
-
+        // 还没写
         return Result.success();
     }
 
     @PostMapping ("/selection")
     Result<?> getSelectionDetail(@RequestBody Integer questionId)
     {
-        Question question = questionMapper.selectById(questionId);
-        return Result.success();
+        try {
+            Question question = questionMapper.selectById(questionId);
+            QuestionDetailVo questionDetailVo = new QuestionDetailVo();
+            questionDetailVo.setName(question.getQuestionName());
+            questionDetailVo.setType(questionMapper.findTypeById(question.getQuestionTypeId()));
+            List<Integer> optionIds = DecoderUtils.decodeIds(question.getQuestionOptionIds());
+            List<QuestionOption> options = questionOptionMapper.selectBatchIds(optionIds);
+            questionDetailVo.setOptions(options);
+            return Result.success(questionDetailVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error("-1","获取题目详情失败");
+        }
+
+
     }
 
     @PostMapping("/detail")
@@ -171,14 +182,17 @@ public class ExamController {
             examVo.setSerial(examId);
             examVo.setName(exam.getExamName());
             examVo.setDifficulty(examMapper.findLevelById(exam.getExamLevelId()));
+            String subject = examMapper.findCategoryById(exam.getExamCategoryId());
+            examVo.setSubject(subject);
+            examVo.setScore(exam.getExamScore());
             examVo.setDuration(exam.getExamTimeLimit());
             examVo.setCheckScore(exam.getExamCheckPoints());
             examVo.setRadioScore(exam.getExamRadioPoints());
             examVo.setJudgeScore(exam.getExamJudgePoints());
 
-            examDetailVo.setRadioIds(Stream.of(exam.getExamRadioIds().split("-")).map(Integer::parseInt).collect(Collectors.toList()));
-            examDetailVo.setCheckIds(Stream.of(exam.getExamCheckIds().split("-")).map(Integer::parseInt).collect(Collectors.toList()));
-            examDetailVo.setJudgeIds(Stream.of(exam.getExamJudgeIds().split("-")).map(Integer::parseInt).collect(Collectors.toList()));
+            examDetailVo.setRadioIds(DecoderUtils.decodeIds(exam.getExamRadioIds()));
+            examDetailVo.setCheckIds(DecoderUtils.decodeIds(exam.getExamCheckIds()));
+            examDetailVo.setJudgeIds(DecoderUtils.decodeIds(exam.getExamJudgeIds()));
             examDetailVo.setExam(examVo);
 
             return Result.success(examDetailVo);
@@ -186,13 +200,6 @@ public class ExamController {
             e.printStackTrace();
             return Result.error("-1","获取考试详情失败");
         }
-
-
-
-
-
-
-
     }
 
 

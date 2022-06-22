@@ -149,11 +149,12 @@ export default {
     //TODO 修改url值
     //getExamDetail(this.$route.params.id)
 
-    request.get("/exam/detail", this.$route.params.id)
+    request.post("/exam/detail", this.$route.params.id)
         .then(res => {
-          if (res.code === 0) {
+          if (res.code === '0') {
             // 赋值考试对象
             this.examDetail = res.data
+            console.log(this.examDetail)
             return res.data
           } else {
             this.$notification.error({
@@ -163,19 +164,7 @@ export default {
           }
         })
 
-    // this.examDetail = {
-    //   exam: {
-    //     name: '三角函数',
-    //     subject: '数学',
-    //     duration: 90,
-    //     radioScore: 5,
-    //     checkScore: 5,
-    //     judgeScore: 5
-    //   },
-    //   radioIds: [1, 5, 6],
-    //   checkIds: [2, 7, 8],
-    //   judgeIds: [3, 4, 9],
-    // }
+
 
     this.currentQuestion = {
       type: '单选题',
@@ -191,7 +180,6 @@ export default {
         }
       ]
     }
-
   },
   methods: {
 

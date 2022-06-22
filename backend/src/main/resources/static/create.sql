@@ -59,7 +59,7 @@ create table question(
     level_id integer,
     category_id integer,
     creator_id integer,
-    option_id integer,
+    option_ids varchar(200),
     type_id integer,
     
     `description` text,
@@ -81,7 +81,7 @@ create table question_level(
 
 create table question_option(
 	id integer key auto_increment,
-    content integer,
+    content text,
     `description` text
 );
 
@@ -107,19 +107,26 @@ insert into exam(`name`,category_id,level_id,score,time_limit)
 insert into exam(`name`,category_id,level_id,score,time_limit) 
 	values('算法',3,2,100,120);
     
-insert into question_type(id,`type`) values(1,'radio');
-insert into question_type(id,`type`) values(2,'check');
-insert into question_type(id,`type`) values(3,'judge');
+insert into question_type(id,`type`) values(1,'单选题');
+insert into question_type(id,`type`) values(2,'多选题');
+insert into question_type(id,`type`) values(3,'判断题');
 
-insert into question(`name`,type_id) values('单选1',1);
-insert into question(`name`,type_id) values('单选2',1);
-insert into question(`name`,type_id) values('单选3',1);
-insert into question(`name`,type_id) values('多选1',2);
-insert into question(`name`,type_id) values('多选2',2);
-insert into question(`name`,type_id) values('多选3',2);
-insert into question(`name`,type_id) values('判断1',3);
-insert into question(`name`,type_id) values('判断2',3);
-insert into question(`name`,type_id) values('判断3',3);
+insert into question(`name`,type_id,option_ids) values('单选1',1,'1-2-3');
+insert into question(`name`,type_id,option_ids) values('单选2',1,'1-2-3');
+insert into question(`name`,type_id,option_ids) values('单选3',1,'1-2-3');
+insert into question(`name`,type_id,option_ids) values('多选1',2,'2-3');
+insert into question(`name`,type_id,option_ids) values('多选2',2,'1-2-3');
+insert into question(`name`,type_id,option_ids) values('多选3',2,'1-2-3');
+insert into question(`name`,type_id,option_ids) values('判断1',3,'2-3');
+insert into question(`name`,type_id,option_ids) values('判断2',3,'1-2');
+insert into question(`name`,type_id,option_ids) values('判断3',3,'1-3');
+
+insert into question_option(content) values('选项1');
+insert into question_option(content) values('选项2');
+insert into question_option(content) values('选项3');
+
+
+select * from question_option;
 
 select * from question;
 select * from exam;

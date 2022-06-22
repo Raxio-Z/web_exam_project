@@ -26,6 +26,8 @@ public interface ExamMapper extends BaseMapper<Exam> {
 
     @Select("select name from exam_level where id = #{id}")
     String findLevelById(Integer id);
+    @Select("select name from exam_category where id = #{id}")
+    String findCategoryById(Integer id);
 
 
 }
