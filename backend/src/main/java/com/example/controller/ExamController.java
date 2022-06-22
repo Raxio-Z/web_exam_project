@@ -163,7 +163,7 @@ public class ExamController {
             List<Integer> optionIds = DecoderUtils.decodeIds(question.getQuestionOptionIds());
             List<QuestionOption> options = questionOptionMapper.selectBatchIds(optionIds);
             questionDetailVo.setOptions(options);
-            questionDetailVo.setQuestionId(questionId);
+            questionDetailVo.setId(questionId);
             return Result.success(questionDetailVo);
         }catch (Exception e){
             e.printStackTrace();

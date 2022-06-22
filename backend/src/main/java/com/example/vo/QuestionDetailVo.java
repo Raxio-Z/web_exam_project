@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class QuestionDetailVo {
-    private Integer questionId;
+    private Integer id;
 
     private String type;
 
