@@ -1,18 +1,22 @@
 package com.example.controller;
 
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.entity.*;
 import com.example.mapper.ExamMapper;
+import com.example.mapper.ExamRecordMapper;
 import com.example.mapper.QuestionMapper;
 import com.example.mapper.QuestionOptionMapper;
 import com.example.utils.DecoderUtils;
 import com.example.utils.TokenUtils;
 import com.example.vo.*;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.Resources;
 import javax.print.attribute.ResolutionSyntax;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +32,9 @@ public class ExamController {
 
     @Resource
     QuestionOptionMapper questionOptionMapper;
+
+    @Resource
+    ExamRecordMapper examRecordMapper;
 
     @GetMapping("/all")
     Result<?> getExamAll() {
@@ -145,16 +152,22 @@ public class ExamController {
     }
 
     @GetMapping("/my")
-    Result<?> getMyExam()
-    {
-        Integer Id = TokenUtils.getUserId();
-        // 还没写
-        return Result.success();
+    Result<?> getMyExam() {
+        // 1. 获取userId
+        // 2. 根据userId关联查询exam表中的数据
+        try {
+            Integer id = TokenUtils.getUserId();
+            List<ExamVo> examVos = examMapper.findMyExamVosById(id);
+            return Result.success(examVos);
+        }catch(Exception e){
+            e.printStackTrace();
+            return Result.error("-1","获取我的考试失败");
+        }
+
     }
 
-    @PostMapping ("/selection")
-    Result<?> getSelectionDetail(@RequestBody Integer questionId)
-    {
+    @PostMapping("/selection")
+    Result<?> getSelectionDetail(@RequestBody Integer questionId) {
         try {
             Question question = questionMapper.selectById(questionId);
             QuestionDetailVo questionDetailVo = new QuestionDetailVo();
@@ -165,17 +178,16 @@ public class ExamController {
             questionDetailVo.setOptions(options);
             questionDetailVo.setQuestionId(questionId);
             return Result.success(questionDetailVo);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Result.error("-1","获取题目详情失败");
+            return Result.error("-1", "获取题目详情失败");
         }
 
 
     }
 
     @PostMapping("/detail")
-    Result<?> getExamDetail(@RequestBody Integer examId)
-    {
+    Result<?> getExamDetail(@RequestBody Integer examId) {
         ExamDetailVo examDetailVo = new ExamDetailVo();
         ExamVo examVo = new ExamVo();
 
@@ -198,21 +210,50 @@ public class ExamController {
             examDetailVo.setExam(examVo);
 
             return Result.success(examDetailVo);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Result.error("-1","获取考试详情失败");
+            return Result.error("-1", "获取考试详情失败");
         }
     }
 
 
-    @PostMapping("/submit")
-    Result<?> ExamSubmit(@RequestBody Integer examId,@RequestBody Map<Integer,Object> answer)
-    {
+    @PostMapping("/submit/{examId}")
+    Result<?> ExamSubmit(@PathVariable(name = "examId") Integer examId, @RequestBody Map<Integer, List<?>> answer) {
+        // 1. 根据examId拿到题目分值
+        // 2. 根据answer中的questionId找到该问题对应的answerId
+        // 3. 根据answerId与选择的值进行比较计算分数
+        try {
+            Exam exam = examMapper.selectById(examId);
+            Integer radioPoints = exam.getExamRadioPoints();
+            Integer checkPoints = exam.getExamCheckPoints();
+            Integer judgePoints = exam.getExamJudgePoints();
+
+            Map<Integer,Integer> points = new HashMap<>();
+            points.put(1,radioPoints);
+            points.put(2,checkPoints);
+            points.put(3,judgePoints);
+            Integer scores = 0;
+            for (Map.Entry<Integer, List<?>> entry : answer.entrySet()) {
+                Question question = questionMapper.selectById(entry.getKey());
+                String answerIds = question.getQuestionOptionAnswerIds();
+                List<Integer> ansIds = DecoderUtils.decodeIds(answerIds);
+                if(ListUtils.isEqualList(ansIds,entry.getValue()))
+                    scores+=points.get(question.getQuestionTypeId());
+            }
+            ExamRecord record = new ExamRecord();
+            record.setExamRecordExamId(examId);
+            record.setExamRecordJoinerId(TokenUtils.getUserId());
+            record.setExamRecordScore(scores);
+
+            examRecordMapper.insert(record);
+
+            return Result.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("-1","交卷失败");
+        }
 
 
-
-
-        return Result.success();
     }
 
 }

@@ -45,10 +45,11 @@ request.interceptors.response.use(
 export function finishExam (examId, answersMap) {
     console.log(answersMap)
     return axios({
-        url: "/exam/submit" + examId,
+        url: "/api/exam/submit/" + examId,
         method: 'post',
         headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization':localStorage.getItem('Authorization')
         },
         data: answersMap
     })

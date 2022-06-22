@@ -71,6 +71,11 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>

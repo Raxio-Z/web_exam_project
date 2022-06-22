@@ -29,5 +29,7 @@ public interface ExamMapper extends BaseMapper<Exam> {
     @Select("select name from exam_category where id = #{id}")
     String findCategoryById(Integer id);
 
+    @Select("select e.id as `serial`,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration,er.score as getScore from exam_record er,exam e,exam_category ec,exam_level el where er.joiner_id = #{id} and e.id = er.exam_id and e.category_id = ec.id and e.level_id = el.id")
+    List<ExamVo> findMyExamVosById(Integer id);
 
 }

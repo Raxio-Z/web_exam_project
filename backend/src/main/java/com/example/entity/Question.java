@@ -15,9 +15,6 @@ public class Question {
     @TableField(value="name")
     private String questionName;
 
-//    @TableField(value="score")
-//    private Integer questionScore;
-
     @TableField(value="level_id")
     private Integer questionLevelId;
 
@@ -29,6 +26,9 @@ public class Question {
 
     @TableField(value="option_ids")
     private String questionOptionIds;
+
+    @TableField(value="answer_ids")
+    private String questionOptionAnswerIds;
 
     @TableField(value="type_id")
     private Integer questionTypeId;

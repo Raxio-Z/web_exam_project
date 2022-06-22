@@ -10,6 +10,7 @@ public class ExamVo {
     private String difficulty;
     private Integer score;
     private Integer duration;
+    private Integer getScore;
 
     private Integer radioScore;
     private Integer checkScore;

@@ -9,6 +9,7 @@ drop table if exists `question_category`;
 drop table if exists `question_level`;
 drop table if exists `question_option`;
 drop table if exists `question_type`;
+drop table if exists `exam_record`;
 
 create table user(
 	user_id integer key auto_increment,
@@ -41,6 +42,13 @@ create table exam(
 	update_date date
 );
 
+create table exam_record(
+	id integer key auto_increment,
+    joiner_id integer,
+    exam_id integer,
+    score integer
+);
+
 create table exam_category(
 	id integer key auto_increment,
     `name` varchar(20) not null unique,
@@ -60,6 +68,7 @@ create table question(
     category_id integer,
     creator_id integer,
     option_ids varchar(200),
+    answer_ids varchar(200),
     type_id integer,
     
     `description` text,
@@ -111,19 +120,23 @@ insert into question_type(id,`type`) values(1,'单选题');
 insert into question_type(id,`type`) values(2,'多选题');
 insert into question_type(id,`type`) values(3,'判断题');
 
-insert into question(`name`,type_id,option_ids) values('单选1',1,'1-2-3');
-insert into question(`name`,type_id,option_ids) values('单选2',1,'1-2-3');
-insert into question(`name`,type_id,option_ids) values('单选3',1,'1-2-3');
-insert into question(`name`,type_id,option_ids) values('多选1',2,'2-3');
-insert into question(`name`,type_id,option_ids) values('多选2',2,'1-2-3');
-insert into question(`name`,type_id,option_ids) values('多选3',2,'1-2-3');
-insert into question(`name`,type_id,option_ids) values('判断1',3,'2-3');
-insert into question(`name`,type_id,option_ids) values('判断2',3,'1-2');
-insert into question(`name`,type_id,option_ids) values('判断3',3,'1-3');
+insert into question(`name`,type_id,option_ids,answer_ids) values('单选1',1,'1-2-3','1');
+insert into question(`name`,type_id,option_ids,answer_ids) values('单选2',1,'1-2-3','2');
+insert into question(`name`,type_id,option_ids,answer_ids) values('单选3',1,'1-2-3','3');
+insert into question(`name`,type_id,option_ids,answer_ids) values('多选1',2,'2-3','2-3');
+insert into question(`name`,type_id,option_ids,answer_ids) values('多选2',2,'1-2-3','1-2');
+insert into question(`name`,type_id,option_ids,answer_ids) values('多选3',2,'1-2-3','1-3');
+insert into question(`name`,type_id,option_ids,answer_ids) values('判断1',3,'2-3','2');
+insert into question(`name`,type_id,option_ids,answer_ids) values('判断2',3,'1-2','1');
+insert into question(`name`,type_id,option_ids,answer_ids) values('判断3',3,'1-3','3');
 
 insert into question_option(content) values('选项1');
 insert into question_option(content) values('选项2');
 insert into question_option(content) values('选项3');
+
+insert into exam_record(joiner_id,exam_id,score) values(1,1,30);
+insert into exam_record(joiner_id,exam_id,score) values(1,2,40);
+insert into exam_record(joiner_id,exam_id,score) values(1,3,50);
 
 
 select * from question_option;
@@ -131,6 +144,14 @@ select * from question_option;
 select * from question;
 select * from exam;
 select * from `user`;
+
+select * from exam_record;
+
+
+select e.id as `serial`,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration,er.score as getScore
+	from exam_record er,exam e,exam_category ec,exam_level el 
+    where er.joiner_id = 1 and e.id = er.exam_id and e.category_id = ec.id and e.level_id = el.id;
+
 
 
 

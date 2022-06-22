@@ -136,7 +136,7 @@ export default {
   },
   mounted() {
     this.loading = true;
-    request.get("/exam/all")
+    request.get("/exam/my")
         .then(res => {
           if (res.code === '0') {
             this.dataSource = res.data
