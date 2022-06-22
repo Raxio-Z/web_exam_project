@@ -45,7 +45,7 @@
             <a-menu-item v-for="(item, index) in examDetail.radioIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
-              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
+              <a-icon type="star" theme="twoTone" two-tone-color="#eb2f96" v-if="starMap.get(item)"/>
             </a-menu-item>
 
           </a-sub-menu>
@@ -59,7 +59,7 @@
             <a-menu-item v-for="(item, index) in examDetail.checkIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
-              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
+              <a-icon type="star" theme="twoTone" two-tone-color="#eb2f96" v-if="starMap.get(item)"/>
             </a-menu-item>
           </a-sub-menu>
 
@@ -71,7 +71,7 @@
             <a-menu-item v-for="(item, index) in examDetail.judgeIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
-              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
+              <a-icon type="star" theme="twoTone" two-tone-color="#eb2f96" v-if="starMap.get(item)"/>
             </a-menu-item>
           </a-sub-menu>
 
@@ -86,6 +86,10 @@
                   style="font-size: 30px;font-family: Consolas,serif">
               欢迎参加考试，请点击左侧题目编号开始答题
             </span>
+
+            <div v-show="currentQuestion !== ''">
+              <a-icon type="star" theme="twoTone" two-tone-color="#eb2f96" @click="handleStar"/>
+            </div>
 
             <div class="QuestionDetail">
               <strong style="font-size: 22px">{{ currentQuestion.type }} </strong>
@@ -197,6 +201,16 @@ export default {
     document.removeEventListener('visibilitychange', this.monitor)
   },
   methods: {
+    //标记题目
+    handleStar() {
+      if (this.starMap.get(this.currentQuestion.questionId)) {
+        this.starMap.delete(this.currentQuestion.questionId)
+        console.log('去掉了' + this.currentQuestion.questionId)
+      } else {
+        this.starMap.set(this.currentQuestion.questionId, 1)
+        console.log('加上了' + this.currentQuestion.questionId)
+      }
+    },
     //监视是否切屏
     monitor(e) {
       let isExist = e.target.visibilityState
@@ -218,6 +232,8 @@ export default {
       // 清空问题绑定的值
       this.radioValue = ''
       this.checkValues = []
+
+      console.log("questionId是" + questionId)
 
       //TODO: 修改url
       // getQuestionDetail(questionId)
@@ -299,7 +315,8 @@ export default {
                 if (res.data.code === '0') {
                   // 考试交卷，后端判分完成，然后跳转到我的考试界面
                   that.$notification.success({
-                    message: '考卷提交成功！'
+                    message: '考卷提交成功！',
+                    description: '你可以查看你的成绩'
                   })
                   that.$router.push('/myExam')
                   return res.data
