@@ -4,9 +4,9 @@
     <a-layout-header class="header">
       <!--   v-if="examDetail.exam" 是为了防止 异步请求时页面渲染的时候还没有拿到这个值而报错， 下面多处这个判断都是这个道理 -->
 
-      <span class="profile" v-if="examDetail.exam">
+      <span class="profile" v-if="examDetail.exam" style="margin-left: 30px">
               {{ examDetail.exam.name }}
-              <span style="font-size:15px;">{{ examDetail.exam.subject }} </span>
+              <span style="font-size:15px;margin-left: 20px">{{ examDetail.exam.subject }} </span>
             </span>
 
       <span style="float: right;">
@@ -301,24 +301,6 @@ export default {
 
     },
 
-    // submitResponse() {
-    //   request.post("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
-    //       .then(res => {
-    //         if (res.code === '0') {
-    //           // 考试交卷，后端判分完成，然后跳转到我的考试界面
-    //           this.$notification.success({
-    //             message: '考卷提交成功！'
-    //           })
-    //           this.$router.push('/myExam')
-    //           return res.data
-    //         } else {
-    //           this.$notification.error({
-    //             message: '交卷失败！',
-    //             description: res.msg
-    //           })
-    //         }
-    //       })
-    // }
   }
 }
 </script>
