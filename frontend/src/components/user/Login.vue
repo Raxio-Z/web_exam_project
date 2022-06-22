@@ -29,7 +29,7 @@
             </a-form-item>
 
             <a-form-item>
-              <a-input
+              <a-input-password
                   size="large"
                   class="login-password"
                   type="password"
@@ -42,7 +42,7 @@
               ]"
               >
                 <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-              </a-input>
+              </a-input-password>
             </a-form-item>
 
             <a-form-item style="margin-top:24px">
@@ -90,7 +90,7 @@
                 </div>
               </template>
               <a-form-item>
-                <a-input
+                <a-input-password
                     size="large"
                     type="password"
                     autocomplete="false"
@@ -98,12 +98,12 @@
                     placeholder="至少6位密码，区分大小写"
                     v-model="regState.userPassword"
                     v-decorator="['reg_password', {rules: [{ required: true, message: '至少6位密码，区分大小写'}, { validator: this.ComputeLevel }], validateTrigger: ['change', 'blur']}]"
-                ></a-input>
+                ></a-input-password>
               </a-form-item>
             </a-popover>
 
             <a-form-item>
-              <a-input
+              <a-input-password
                   size="large"
                   class="register-password-confirm"
                   type="password"
@@ -112,7 +112,7 @@
                   v-model="userRePassword"
                   v-decorator="['reg_password2', {rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.PasswordCheck }], validateTrigger: ['change', 'blur']}]"
               >
-              </a-input>
+              </a-input-password>
             </a-form-item>
 
             <a-form-item style="margin-top:24px">

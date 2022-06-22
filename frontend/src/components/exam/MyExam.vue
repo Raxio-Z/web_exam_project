@@ -36,6 +36,11 @@
               {{ tags.toUpperCase() }}
             </a-tag>
           </template>
+
+          <template #more='text,record'>
+            <a-button @click="handleMore(record.serial)">详情</a-button>
+          </template>
+
         </a-table>
 
 
@@ -74,7 +79,6 @@ export default {
           title: '名称',
           dataIndex: 'name',
           ellipsis: true,
-          width: 250
         },
         {
           title: '科目',
@@ -111,9 +115,14 @@ export default {
         {
           title: '得分',
           dataIndex: 'getScore',
-          width: '150px',
           ellipsis: true,
-        }
+        },
+        {
+          title: '详情',
+          dataIndex: 'more',
+          ellipsis: true,
+          scopedSlots: {customRender: 'more'},
+        },
       ],
       dataSource: [
         {
@@ -144,6 +153,16 @@ export default {
           }
         })
   },
+  methods:{
+    handleMore(id){
+      console.log("serial是")
+      console.log(id)
+      const routeUrl = this.$router.resolve({
+        path: `/exam/${id}`
+      })
+      window.open(routeUrl.href, '_blank')
+    }
+  }
 
 }
 </script>
