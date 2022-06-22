@@ -19,7 +19,8 @@ create table user(
     user_avatar text,
     user_description text,
     user_email text,
-    user_phone text
+    user_phone text,
+    user_exam_ids varchar(50)
 );
 
 create table exam(
@@ -30,7 +31,9 @@ create table exam(
     score integer,
     time_limit integer,
     `description` text,
-    question_ids varchar(200),
+    radio_ids varchar(200),
+    check_ids varchar(200),
+    judge_ids varchar(200),
     radio_points integer,
     check_points integer,
     judge_points integer,
@@ -58,6 +61,7 @@ create table question(
     creator_id integer,
     option_id integer,
     type_id integer,
+    
     `description` text,
 	create_date date,
 	update_date date
@@ -119,6 +123,7 @@ insert into question(`name`,type_id) values('判断3',3);
 
 select * from question;
 select * from exam;
+select * from `user`;
 
 
 

@@ -30,8 +30,15 @@ public class Exam {
     private String examDescription;
 
     // 存储该考试包含的所有问题的id，使用'_'分隔
-    @TableField(value="question_ids")
-    private String examQuestionIds;
+    @TableField(value="radio_ids")
+    private String examRadioIds;
+
+    @TableField(value="check_ids")
+    private String examCheckIds;
+
+    @TableField(value="judge_ids")
+    private String examJudgeIds;
+
 
     @TableField(value="radio_points")
     private Integer examRadioPoints;

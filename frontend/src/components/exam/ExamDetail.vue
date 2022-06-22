@@ -146,36 +146,36 @@ export default {
     this.answersMap = new Map()
     // 从后端获取考试的详细信息，渲染到考试详情里
 
-    // TODO 修改url值
-    // getExamDetail(this.$route.params.id)
+    //TODO 修改url值
+    //getExamDetail(this.$route.params.id)
 
-    // request.get("/exam/all", this.$route.params.id)
-    //     .then(res => {
-    //       if (res.code === 0) {
-    //         // 赋值考试对象
-    //         this.examDetail = res.data
-    //         return res.data
-    //       } else {
-    //         this.$notification.error({
-    //           message: '获取考试详情失败',
-    //           description: res.msg
-    //         })
-    //       }
-    //     })
+    request.get("/exam/detail", this.$route.params.id)
+        .then(res => {
+          if (res.code === 0) {
+            // 赋值考试对象
+            this.examDetail = res.data
+            return res.data
+          } else {
+            this.$notification.error({
+              message: '获取考试详情失败',
+              description: res.msg
+            })
+          }
+        })
 
-    this.examDetail = {
-      exam: {
-        name: '三角函数',
-        subject: '数学',
-        duration: 90,
-        radioScore: 5,
-        checkScore: 5,
-        judgeScore: 5
-      },
-      radioIds: [1, 5, 6],
-      checkIds: [2, 7, 8],
-      judgeIds: [3, 4, 9],
-    }
+    // this.examDetail = {
+    //   exam: {
+    //     name: '三角函数',
+    //     subject: '数学',
+    //     duration: 90,
+    //     radioScore: 5,
+    //     checkScore: 5,
+    //     judgeScore: 5
+    //   },
+    //   radioIds: [1, 5, 6],
+    //   checkIds: [2, 7, 8],
+    //   judgeIds: [3, 4, 9],
+    // }
 
     this.currentQuestion = {
       type: '单选题',
@@ -204,9 +204,9 @@ export default {
 
       //TODO: 修改url
       // getQuestionDetail(questionId)
-      request.get("/exam/all", questionId)
+      request.post("/exam/selection", questionId)
           .then(res => {
-            if (res.code === 0) {
+            if (res.code === '0') {
               // 赋值当前考试对象
               // 通过currentQuestion得到数据
               that.currentQuestion = res.data

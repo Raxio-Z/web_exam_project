@@ -44,13 +44,12 @@ public class TokenUtils {
      * 获取token中的用户信息
      * @return
      */
-    public static User getUser() {
+    public static Integer getUserId() {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            String token = request.getHeader("token");
+            String token = request.getHeader("Authorization");
             String aud = JWT.decode(token).getAudience().get(0);
-            Integer userId = Integer.valueOf(aud);
-            return staticUserMapper.selectById(userId);
+            return Integer.valueOf(aud);
         } catch (Exception e) {
             log.error("解析token失败", e);
             return null;

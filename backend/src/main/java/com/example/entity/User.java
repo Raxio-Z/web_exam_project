@@ -26,6 +26,9 @@ public class User {
 
     @TableField(exist = false)
     private String token;
+
+
+    private String userExamIds;
     @Override
     public String toString() {
         return "User{" +
