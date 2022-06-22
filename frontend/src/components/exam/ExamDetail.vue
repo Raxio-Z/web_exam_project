@@ -279,7 +279,8 @@ export default {
         onOk() {
           finishExam(that.$route.params.id, that._mapToJson(that.answersMap))
               .then(res => {
-                if (res.code === '0') {
+                console.log(res)
+                if (res.data.code === '0') {
                   // 考试交卷，后端判分完成，然后跳转到我的考试界面
                   that.$notification.success({
                     message: '考卷提交成功！'

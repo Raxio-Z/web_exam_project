@@ -159,9 +159,9 @@ public class ExamController {
             Integer id = TokenUtils.getUserId();
             List<ExamVo> examVos = examMapper.findMyExamVosById(id);
             return Result.success(examVos);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Result.error("-1","获取我的考试失败");
+            return Result.error("-1", "获取我的考试失败");
         }
 
     }
@@ -228,29 +228,36 @@ public class ExamController {
             Integer checkPoints = exam.getExamCheckPoints();
             Integer judgePoints = exam.getExamJudgePoints();
 
-            Map<Integer,Integer> points = new HashMap<>();
-            points.put(1,radioPoints);
-            points.put(2,checkPoints);
-            points.put(3,judgePoints);
+            Map<Integer, Integer> points = new HashMap<>();
+            points.put(1, radioPoints);
+            points.put(2, checkPoints);
+            points.put(3, judgePoints);
             Integer scores = 0;
             for (Map.Entry<Integer, List<?>> entry : answer.entrySet()) {
                 Question question = questionMapper.selectById(entry.getKey());
                 String answerIds = question.getQuestionOptionAnswerIds();
                 List<Integer> ansIds = DecoderUtils.decodeIds(answerIds);
-                if(ListUtils.isEqualList(ansIds,entry.getValue()))
-                    scores+=points.get(question.getQuestionTypeId());
+                if (ListUtils.isEqualList(ansIds, entry.getValue()))
+                    scores += points.get(question.getQuestionTypeId());
             }
             ExamRecord record = new ExamRecord();
             record.setExamRecordExamId(examId);
-            record.setExamRecordJoinerId(TokenUtils.getUserId());
+            Integer userId = TokenUtils.getUserId();
+            record.setExamRecordJoinerId(userId);
             record.setExamRecordScore(scores);
 
-            examRecordMapper.insert(record);
+            Map<String, Object> req = new HashMap<>();
+            req.put("joiner_id", userId);
+            req.put("exam_id", examId);
+            if (examRecordMapper.selectByMap(req).isEmpty())
+                examRecordMapper.insert(record);
+            else
+                examRecordMapper.updateScore(record.getExamRecordScore(),record.getExamRecordJoinerId(), record.getExamRecordExamId());
 
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.error("-1","交卷失败");
+            return Result.error("-1", "交卷失败");
         }
 
 
