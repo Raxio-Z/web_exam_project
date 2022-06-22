@@ -178,21 +178,21 @@ export default {
 
 
 
-    this.currentQuestion = {
-      questionId:'',
-      type: '单选题',
-      name: '这是问题题目',
-      options: [
-        {
-          questionOptionId: 1,
-          questionOptionContent: '第一个选项'
-        },
-        {
-          questionOptionId: 2,
-          questionOptionContent: '第二个选项'
-        }
-      ]
-    }
+    // this.currentQuestion = {
+    //   questionId:'',
+    //   type: '单选题',
+    //   name: '这是问题题目',
+    //   options: [
+    //     {
+    //       questionOptionId: 1,
+    //       questionOptionContent: '第一个选项'
+    //     },
+    //     {
+    //       questionOptionId: 2,
+    //       questionOptionContent: '第二个选项'
+    //     }
+    //   ]
+    // }
   },
   methods: {
 
@@ -211,14 +211,17 @@ export default {
               // 赋值当前考试对象
               // 通过currentQuestion得到数据
               that.currentQuestion = res.data
+
+              console.log(that.currentQuestion)
+
               // 查看用户是不是已经做过这道题又切换回来的，answersMap中查找，能找到这个题目id对应的值数组不为空说明用户做过这道题
-              if (that.answersMap.get(that.currentQuestion.id)) {
+              if (that.answersMap.get(that.currentQuestion.questionId)) {
                 // 说明之前做过这道题了
                 if (that.currentQuestion.type === '单选题' || that.currentQuestion.type === '判断题') {
-                  that.radioValue = that.answersMap.get(that.currentQuestion.id)[0]
+                  that.radioValue = that.answersMap.get(that.currentQuestion.questionId)[0]
                 } else if (that.currentQuestion.type === '多选题') {
                   // 数组是引用类型，因此需要进行拷贝，千万不要直接赋值
-                  Object.assign(that.checkValues, that.answersMap.get(that.currentQuestion.id))
+                  Object.assign(that.checkValues, that.answersMap.get(that.currentQuestion.questionId))
                 }
               }
               return res.data
@@ -238,7 +241,7 @@ export default {
       const userOptions = []
       userOptions.push(e.target.value)
       // 更新做题者选择的答案
-      this.answersMap.set(this.currentQuestion.id, userOptions)
+      this.answersMap.set(this.currentQuestion.questionId, userOptions)
     },
     /**
      * 多选题触发的变化事件
@@ -246,7 +249,7 @@ export default {
      */
     onCheckChange(checkedValues) {
       // 更新做题者选择的答案
-      this.answersMap.set(this.currentQuestion.id, checkedValues)
+      this.answersMap.set(this.currentQuestion.questionId, checkedValues)
     },
     _strMapToObj(strMap) {
       const obj = Object.create(null)
