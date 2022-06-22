@@ -35,9 +35,9 @@
             </a-tag>
           </template>
 
-          <template #more='text,record'>
-            <a-button @click="handleMore(record.serial)">详情</a-button>
-          </template>
+<!--          <template #more='text,record'>-->
+<!--            <a-button @click="handleMore(record.serial)">详情</a-button>-->
+<!--          </template>-->
 
         </a-table>
 
@@ -114,12 +114,12 @@ export default {
           dataIndex: 'getScore',
           ellipsis: true,
         },
-        {
-          title: '详情',
-          dataIndex: 'more',
-          ellipsis: true,
-          scopedSlots: {customRender: 'more'},
-        },
+        // {
+        //   title: '详情',
+        //   dataIndex: 'more',
+        //   ellipsis: true,
+        //   scopedSlots: {customRender: 'more'},
+        // },
       ],
       dataSource: [
         {

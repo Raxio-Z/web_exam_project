@@ -10,18 +10,18 @@
         <a-tab-pane key="login" tab="登录">
           <a-form class="login-form" @submit="loginSubmit">
             <a-form-item
-                :rules="[{ required: true, message: '请输入邮箱' }]"
+                :rules="[{ required: true, message: '请输入用户名' }]"
             >
               <a-input
                   size="large"
                   class="login-username"
                   ref="loginUsername"
                   type="text"
-                  placeholder="请输入邮箱"
+                  placeholder="请输入用户名"
                   v-model="loginState.userUsername"
                   v-decorator="[
                 'loginusername',
-                {rules: [{ required: true, message: '请输入邮箱！' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
+                {rules: [{ required: true, message: '请输入用户名！' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
               ]"
               >
                 <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -67,11 +67,11 @@
                   size="large"
                   class="register-username"
                   type="text"
-                  placeholder="请输入邮箱"
+                  placeholder="请输入用户名"
                   v-model="regState.userUsername"
                   v-decorator="[
                 'register-username',
-                {rules: [{ required: true, message: '请输入邮箱/手机号' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
+                {rules: [{ required: true, message: '请输入用户名' }, { validator: validateEmailOrPhone }], validateTrigger: 'change'}
               ]"
               >
 
@@ -369,8 +369,8 @@ export default {
 
       if (res.code === '0') {
 
-        this.$router.push({name: 'user'})
-
+        location.reload()
+        this.$router.go(0)
         // setTimeout(() => {
         //   this.$notification.success({
         //     message: '注册成功，请登录！',
