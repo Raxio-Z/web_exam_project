@@ -179,6 +179,7 @@ export default {
 
 
     this.currentQuestion = {
+      questionId:'',
       type: '单选题',
       name: '这是问题题目',
       options: [
@@ -281,9 +282,9 @@ export default {
 
     },
     submitResponse() {
-      request.get("/exam/all", this.$route.params.id, this._mapToJson(this.answersMap))
+      request.get("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
           .then(res => {
-            if (res.code === 0) {
+            if (res.code === '0') {
               // 考试交卷，后端判分完成，然后跳转到我的考试界面
               this.$notification.success({
                 message: '考卷提交成功！'

@@ -13,6 +13,7 @@ import com.example.vo.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.print.attribute.ResolutionSyntax;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -162,6 +163,7 @@ public class ExamController {
             List<Integer> optionIds = DecoderUtils.decodeIds(question.getQuestionOptionIds());
             List<QuestionOption> options = questionOptionMapper.selectBatchIds(optionIds);
             questionDetailVo.setOptions(options);
+            questionDetailVo.setQuestionId(questionId);
             return Result.success(questionDetailVo);
         }catch (Exception e){
             e.printStackTrace();
@@ -202,6 +204,12 @@ public class ExamController {
         }
     }
 
+
+    @PostMapping("/submit")
+    Result<?> ExamSubmit(@RequestBody Integer examId,@RequestBody Map<Integer,Object> answer)
+    {
+        return Result.success();
+    }
 
 }
 
