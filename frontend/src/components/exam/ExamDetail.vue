@@ -122,7 +122,7 @@
 
 <script>
 import Selfie from "@/components/exam/components/Selfie";
-import request from "@/utils/request";
+import request, {finishExam} from "@/utils/request";
 
 
 export default {
@@ -277,31 +277,47 @@ export default {
         title: '提示',
         content: '确定交卷 ?',
         onOk() {
-          that.submitResponse()
+          finishExam(that.$route.params.id, that._mapToJson(that.answersMap))
+              .then(res => {
+                if (res.code === '0') {
+                  // 考试交卷，后端判分完成，然后跳转到我的考试界面
+                  that.$notification.success({
+                    message: '考卷提交成功！'
+                  })
+                  that.$router.push('/myExam')
+                  return res.data
+                } else {
+                  that.$notification.error({
+                    message: '交卷失败！',
+                    description: res.msg
+                  })
+                }
+              })
         },
         onCancel() {
         }
       })
 
     },
-    submitResponse() {
-      request.post("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
-          .then(res => {
-            if (res.code === '0') {
-              // 考试交卷，后端判分完成，然后跳转到我的考试界面
-              this.$notification.success({
-                message: '考卷提交成功！'
-              })
-              this.$router.push('/myExam')
-              return res.data
-            } else {
-              this.$notification.error({
-                message: '交卷失败！',
-                description: res.msg
-              })
-            }
-          })
-    }
+
+    // submitResponse() {
+    //   request.post("/exam/submit", this.$route.params.id, this._mapToJson(this.answersMap))
+    //       .then(res => {
+    //         if (res.code === '0') {
+    //           // 考试交卷，后端判分完成，然后跳转到我的考试界面
+    //           this.$notification.success({
+    //             message: '考卷提交成功！'
+    //           })
+    //           this.$router.push('/myExam')
+    //           return res.data
+    //         } else {
+    //           this.$notification.error({
+    //             message: '交卷失败！',
+    //             description: res.msg
+    //           })
+    //         }
+    //       })
+    // }
   }
 }
 </script>

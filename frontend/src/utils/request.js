@@ -42,6 +42,17 @@ request.interceptors.response.use(
     }
 )
 
+export function finishExam (examId, answersMap) {
+    console.log(answersMap)
+    return axios({
+        url: "/exam/submit" + examId,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        data: answersMap
+    })
+}
 
 export default request
 
