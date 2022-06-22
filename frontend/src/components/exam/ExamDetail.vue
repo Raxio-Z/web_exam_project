@@ -5,13 +5,13 @@
       <!--   v-if="examDetail.exam" 是为了防止 异步请求时页面渲染的时候还没有拿到这个值而报错， 下面多处这个判断都是这个道理 -->
 
       <span class="profile" v-if="examDetail.exam">
-              {{ examDetail.exam.name}}
+              {{ examDetail.exam.name }}
               <span style="font-size:15px;">{{ examDetail.exam.subject }} </span>
             </span>
 
       <span style="float: right;">
         <span class="countdown" v-if="examDetail.exam">
-          考试限时：{{examDetail.exam.duration}}分钟
+          考试限时：{{ examDetail.exam.duration }}分钟
         </span>
 
         <a-button type="danger" ghost style="margin-right: 60px;" @click="finishExam()">交卷</a-button>
@@ -39,12 +39,13 @@
 
             <span slot="title" v-if="examDetail.exam">
               <a-icon type="check-circle" theme="twoTone"/>
-              单选题(每题{{examDetail.exam.radioScore}}分)
+              单选题(每题{{ examDetail.exam.radioScore }}分)
             </span>
 
             <a-menu-item v-for="(item, index) in examDetail.radioIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
+              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
             </a-menu-item>
 
           </a-sub-menu>
@@ -52,23 +53,25 @@
           <a-sub-menu key="question_check">
             <span slot="title" v-if="examDetail.exam">
               <a-icon type="check-square" theme="twoTone"/>
-              多选题(每题{{examDetail.exam.checkScore}}分)
+              多选题(每题{{ examDetail.exam.checkScore }}分)
             </span>
 
             <a-menu-item v-for="(item, index) in examDetail.checkIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
+              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
             </a-menu-item>
           </a-sub-menu>
 
           <a-sub-menu key="question_judge">
             <span slot="title" v-if="examDetail.exam"><a-icon type="like" theme="twoTone"/>
-              判断题(每题{{examDetail.exam.judgeScore}}分)
+              判断题(每题{{ examDetail.exam.judgeScore }}分)
             </span>
 
             <a-menu-item v-for="(item, index) in examDetail.judgeIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
+              <!--              <a-icon type="smile" theme="twoTone" twoToneColor="#52c41a" v-if="starMap.get(item)"/>-->
             </a-menu-item>
           </a-sub-menu>
 
@@ -83,24 +86,29 @@
                   style="font-size: 30px;font-family: Consolas,serif">
               欢迎参加考试，请点击左侧题目编号开始答题
             </span>
-            <strong>{{ currentQuestion.type }} </strong>
-            <p v-html="currentQuestion.name"></p>
-            <!-- 单选题和判断题 --> <!-- key不重复只需要在一个for循环中保证即可 -->
-            <a-radio-group @change="onRadioChange" v-model="radioValue"
-                           v-if="currentQuestion.type === '单选题' || currentQuestion.type === '判断题'">
-              <a-radio v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle"
-                       :value="option.questionOptionId">
-                {{ option.questionOptionContent }}
-              </a-radio>
-            </a-radio-group>
 
-            <!-- 多选题 -->
-            <a-checkbox-group @change="onCheckChange" v-model="checkValues" v-if="currentQuestion.type === '多选题'">
-              <a-checkbox v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle"
-                          :value="option.questionOptionId">
-                {{ option.questionOptionContent }}
-              </a-checkbox>
-            </a-checkbox-group>
+            <div class="QuestionDetail">
+              <strong style="font-size: 22px">{{ currentQuestion.type }} </strong>
+              <p style="font-size: 18px;margin-top: 10px" v-html="currentQuestion.name"></p>
+              <!-- 单选题和判断题 --> <!-- key不重复只需要在一个for循环中保证即可 -->
+              <a-radio-group @change="onRadioChange" v-model="radioValue"
+                             v-if="currentQuestion.type === '单选题' || currentQuestion.type === '判断题'">
+                <a-radio v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle"
+                         :value="option.questionOptionId">
+                  {{ option.questionOptionContent }}
+                </a-radio>
+              </a-radio-group>
+
+              <!-- 多选题 -->
+              <a-checkbox-group @change="onCheckChange" v-model="checkValues" v-if="currentQuestion.type === '多选题'">
+                <a-checkbox v-for="option in currentQuestion.options" :key="option.questionOptionId"
+                            :style="optionStyle"
+                            :value="option.questionOptionId">
+                  {{ option.questionOptionContent }}
+                </a-checkbox>
+              </a-checkbox-group>
+            </div>
+
           </div>
         </a-layout-content>
 
@@ -128,6 +136,8 @@ export default {
       examDetail: {},
       // 用户做过的问题都放到这个数组中，键为问题id, 值为currentQuestion(其属性answers属性用于存放答案选项地id或ids),，用于存放用户勾选的答案
       answersMap: {},
+      //用户标记的问题
+      starMap: {},
       // 当前用户的问题
       currentQuestion: '',
       // 单选或判断题的绑定值，用于从answersMap中初始化做题状态
@@ -138,12 +148,14 @@ export default {
         display: 'block',
         height: '30px',
         lineHeight: '30px',
-        marginLeft: '0px'
+        marginLeft: '0px',
+        fontSize: '16px'
       }
     }
   },
   mounted() {
     this.answersMap = new Map()
+    this.starMap = new Map()
     // 从后端获取考试的详细信息，渲染到考试详情里
 
     //TODO 修改url值
@@ -168,7 +180,7 @@ export default {
 
     this.currentQuestion = {
       type: '单选题',
-      name: '请做这道单选题',
+      name: '这是问题题目',
       options: [
         {
           questionOptionId: 1,
@@ -255,6 +267,20 @@ export default {
       // TODO: 修改url
       // Todo:向后端提交作答信息数组answersMap
       // finishExam(this.$route.params.id, this._mapToJson(this.answersMap))
+
+      var that = this
+      this.$confirm({
+        title: '提示',
+        content: '确定交卷 ?',
+        onOk() {
+          that.submitResponse()
+        },
+        onCancel() {
+        }
+      })
+
+    },
+    submitResponse() {
       request.get("/exam/all", this.$route.params.id, this._mapToJson(this.answersMap))
           .then(res => {
             if (res.code === 0) {
@@ -290,6 +316,11 @@ export default {
     margin-right: 60px;
     font-size: 20px
   }
+
+}
+
+.QuestionDetail {
+  margin-left: 50px;
 
 }
 

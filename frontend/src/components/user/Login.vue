@@ -369,15 +369,19 @@ export default {
 
       if (res.code === '0') {
 
-        location.reload()
-        this.$router.go(0)
-        // this.$router.push({name: 'welcome'})
+        this.$router.push({name: 'user'})
 
+        // setTimeout(() => {
+        //   this.$notification.success({
+        //     message: '注册成功，请登录！',
+        //   })
+        // }, 200)
         setTimeout(() => {
           this.$notification.success({
-            message: '注册成功，请登录！'
+            message: '注册成功！',
+            description: `请登录`
           })
-        }, 200)
+        }, 600)
 
       } else {
         this.$notification['error']({
