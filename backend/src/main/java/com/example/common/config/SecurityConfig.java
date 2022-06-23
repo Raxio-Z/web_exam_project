@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
+// 有Security需要再次配置跨域问题
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override

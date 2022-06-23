@@ -161,7 +161,7 @@ export default {
           .then(res => {
             if (res.code === '0') {
               this.dataSource = res.data
-              this.pagination.total=this.dataSource.length
+              this.pagination.total = this.dataSource.length
               this.loading = false;
             } else {
               this.$notification.error({
