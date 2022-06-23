@@ -200,7 +200,7 @@ INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,16,70);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,17,24);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,18,39);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,19,36);
-INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,20,49);
+INSERT INTO exam_record(joiner_id,exam_id,score) VADLUES(1,20,49);
 
 
 select * from question_option;
