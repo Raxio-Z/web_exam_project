@@ -50,7 +50,7 @@ export default {
     width: 100%;
     background: url("../assets/background.svg");
     background-size: 100%;
-    padding: 317px 0 144px;
+    padding: 197px 0 144px;
     position: relative;
 
     a {
