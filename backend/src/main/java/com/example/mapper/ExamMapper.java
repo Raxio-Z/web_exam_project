@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public interface ExamMapper extends BaseMapper<Exam> {
-    @Select("select e.id as serial,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration from exam e,exam_category ec,exam_level el where e.category_id = ec.id and e.level_id = el.id;")
+    @Select("select e.id as serial,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration from exam e,exam_category ec,exam_level el where e.category_id = ec.id and e.level_id = el.id")
     List<ExamVo> findAllExamVos();
 
     @Select("select q.id,q.`name`,qt.`type` as `type` from question q,question_type qt where q.type_id = #{id} and qt.id = q.type_id")
@@ -32,6 +32,9 @@ public interface ExamMapper extends BaseMapper<Exam> {
     @Select("select e.id as `serial`,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration,er.score as getScore from exam_record er,exam e,exam_category ec,exam_level el where er.joiner_id = #{id} and e.id = er.exam_id and e.category_id = ec.id and e.level_id = el.id")
     List<ExamVo> findMyExamVosById(Integer id);
 
+
+    @Select("select e.id as serial,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration from exam e,exam_category ec,exam_level el where e.category_id = ec.id and e.level_id = el.id and e.`name` like CONCAT('%',#{key},'%')")
+    List<ExamVo> findExamVosByKey(String key);
 }
 
 

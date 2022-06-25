@@ -22,7 +22,7 @@
         <div class="NewOne">
           <a-button type="primary" icon="plus" @click="$refs.createExamModal.create()">新建</a-button>&nbsp;
 
-          <a-form layout="inline" @submit="handleSubmit">
+          <a-form layout="inline">
             <a-form-item>
               <a-input
                   placeholder="搜索名称"
@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     search() {
-      request.get("/exam/all",this.searchData)
+      request.post("/exam/search",this.searchData)
           .then(res => {
             if (res.code === '0') {
               this.dataSource = res.data

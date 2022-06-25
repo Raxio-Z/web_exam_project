@@ -163,7 +163,6 @@ public class ExamController {
             e.printStackTrace();
             return Result.error("-1", "获取我的考试失败");
         }
-
     }
 
     @PostMapping("/selection")
@@ -266,9 +265,17 @@ public class ExamController {
     @PostMapping("/search")
     Result<?> ExamFilter(@RequestBody String key)
     {
-        return Result.success();
+        List<ExamVo> examVos;
+        Result<?> res;
+        try {
+            examVos = examMapper.findExamVosByKey(key);
+            res = Result.success(examVos);
+        } catch (Exception e) {
+            res = Result.error("-1", "获取考试列表失败");
+            e.printStackTrace();
+        }
+        return res;
     }
-
 }
 
 
