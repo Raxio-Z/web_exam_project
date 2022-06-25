@@ -179,10 +179,21 @@ export default {
               this.dataSource = res.data
               this.pagination.total = this.dataSource.length
               this.loading = false;
-              this.$notification.success({
-                message: '成功',
-                description: `搜索成功`
-              })
+
+              if(this.dataSource.length===0)
+              {
+                this.$notification.error({
+                  message: '没有相关考试',
+                  description: '空'
+                })
+              }
+              else{
+                this.$notification.success({
+                  message: '成功',
+                  description: `搜索成功`
+                })
+              }
+
             } else {
               this.$notification.error({
                 message: '搜索失败',
