@@ -259,7 +259,7 @@ export default {
           //TODO 注意！这里要修改url，参数就是value，已经给了内部结构了
           request.post("/exam/search", values).then(res => {
             //questionCreate(values).then(res => {
-            // 成功就跳转到结果页面
+            // 成功
             console.log(res)
             if (res.code === 0) {
               this.$notification.success({
@@ -271,7 +271,7 @@ export default {
               this.$emit('ok')
             }
           }).catch(err => {
-            // 失败就弹出警告消息
+            // 失败
             this.$notification.error({
               message: '添加失败',
               description: err.message

@@ -312,17 +312,15 @@ export default {
       // last step，最后一步，代表完成考试编写，需要点击"完成"创建考试
       this.confirmLoading = true
       validateFields((errors, values) => { // values就是表单中校验的值，后面提交到后端接口时主要就是用这个values
-        // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
+        // 设置单选题、多选题和判断题的内容
         values.radios = this.radios
         values.checks = this.checks
         values.judges = this.judges
         console.log('提交数据到后端')
         this.confirmLoading = false
         if (!errors) {
-          // 在这里把创建的考试的内容(存放在values中)提交给后端接口，需要的参数都已经封装成values这个json啦
+          // 在这里把创建的考试的内容(存放在values中)提交给后端接口，需要的参数都已经封装成values
           console.log('values:', values)
-          // 把data中的question属性提交到后端，待写完后端接口.把前端的创建的题型提交到后端
-          //examCreate(values).then(res => {
 
           // ToDo 需要向后端传参数value，怎么传
           // TODO 地址是多少
@@ -337,10 +335,6 @@ export default {
               // 关闭弹出框
               this.visible = false
               this.$emit('ok')
-
-              //重新刷新一遍
-              //location.reload()
-              //this.$router.go(0)
             }
           }).catch(err => {
             // 失败就弹出警告消息
@@ -362,22 +356,22 @@ export default {
       this.visible = false
       this.currentStep = 0
     },
-    // 改变选择的题目列表,这里需要分单选、多选和判断进行单独更新，下面的代码要针对radios、checks和judges分别适配
+    // 改变选择的题目列表,这里需要分单选、多选和判断进行单独更新，下面的代码针对radios、checks和judges分别适配
     handleRadioChange(values) {
       console.log(values)
       // 更新单选题的信息，两层循环判断每一个是否已选中
       for (let i = 0; i < this.radios.length; i++) { // 遍历所有的题目的选项
         // 取出一个选项的id
         const name = this.radios[i].name
-        // 当前问题是否被问题创建者选中
+        // 当前问题是否被选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
           const value = values[j]
           if (name === value) {
-            // 说明这个问题被考试创建者选中
+            // 说明这个问题被选中
             checked = true
             this.radios[i].checked = true
-            break // 跳出内部的for循环
+            break
           }
         }
         // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
@@ -394,15 +388,15 @@ export default {
       for (let i = 0; i < this.checks.length; i++) { // 遍历所有的题目的选项
         // 取出一个选项的id
         const name = this.checks[i].name
-        // 当前问题是否被问题创建者选中
+        // 当前问题是否被选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
           const value = values[j]
           if (name === value) {
-            // 说明这个问题被考试创建者选中
+            // 说明这个问题被选中
             checked = true
             this.checks[i].checked = true
-            break // 跳出内部的for循环
+            break
           }
         }
         // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
@@ -419,15 +413,15 @@ export default {
       for (let i = 0; i < this.judges.length; i++) { // 遍历所有的题目的选项
         // 取出一个选项的id
         const name = this.judges[i].name
-        // 当前问题是否被问题创建者选中
+        // 当前问题是否被选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
           const value = values[j]
           if (name === value) {
-            // 说明这个问题被考试创建者选中
+            // 说明这个问题被选中
             checked = true
             this.judges[i].checked = true
-            break // 跳出内部的for循环
+            break
           }
         }
         // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
