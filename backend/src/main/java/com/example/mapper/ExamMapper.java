@@ -33,3 +33,13 @@ public interface ExamMapper extends BaseMapper<Exam> {
     List<ExamVo> findMyExamVosById(Integer id);
 
 }
+
+
+
+
+
+
+
+
+
+

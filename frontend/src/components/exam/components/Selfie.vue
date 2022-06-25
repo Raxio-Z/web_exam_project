@@ -6,7 +6,7 @@
       <a-dropdown>
         <a class="profile">
           <a-avatar style="backgroundColor:#87d068" icon="user"/>
-          <span class="usernameOn">CodingLogan</span>
+          <span class="usernameOn">admin</span>
         </a>
 
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">

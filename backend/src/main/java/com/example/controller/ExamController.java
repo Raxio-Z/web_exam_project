@@ -263,6 +263,12 @@ public class ExamController {
 
     }
 
+    @PostMapping("/search")
+    Result<?> ExamFilter(@RequestBody String key)
+    {
+        return Result.success();
+    }
+
 }
 
 

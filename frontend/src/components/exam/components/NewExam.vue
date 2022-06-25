@@ -339,8 +339,8 @@ export default {
               this.$emit('ok')
 
               //重新刷新一遍
-              location.reload()
-              this.$router.go(0)
+              //location.reload()
+              //this.$router.go(0)
             }
           }).catch(err => {
             // 失败就弹出警告消息
@@ -439,3 +439,12 @@ export default {
   }
 }
 </script>
+
+
+
+
+
+
+
+
+

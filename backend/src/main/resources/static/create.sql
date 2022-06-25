@@ -107,6 +107,7 @@ insert into exam_category(`name`) values('数学');
 insert into exam_category(`name`) values('物理');
 insert into exam_category(`name`) values('计算机');
 insert into exam_category(`name`) values('化学');
+insert into exam_category(`name`) values('web');
 
 
 insert into exam_level(`name`) values('hard');
@@ -200,14 +201,13 @@ INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,16,70);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,17,24);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,18,39);
 INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,19,36);
-INSERT INTO exam_record(joiner_id,exam_id,score) VADLUES(1,20,49);
+INSERT INTO exam_record(joiner_id,exam_id,score) VALUES(1,20,49);
 
 
 select * from question_option;
 
 select * from question;
 select * from exam;
-select * from `user`;
 
 select * from exam_record;
 
@@ -215,6 +215,9 @@ select * from exam_record;
 select e.id as `serial`,e.`name` as `name`,ec.`name` as `subject`,el.`name` as difficulty,e.score as score,e.time_limit as duration,er.score as getScore
 	from exam_record er,exam e,exam_category ec,exam_level el 
     where er.joiner_id = 1 and e.id = er.exam_id and e.category_id = ec.id and e.level_id = el.id;
+    
+
+select * from `user`;
 
 
 
