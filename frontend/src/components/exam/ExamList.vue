@@ -21,6 +21,33 @@
       <a-card :bordered="false">
         <div class="NewOne">
           <a-button type="primary" icon="plus" @click="$refs.createExamModal.create()">新建</a-button>&nbsp;
+
+          <a-form layout="inline" @submit="handleSubmit">
+            <a-form-item>
+              <a-input
+                  placeholder="搜索名称"
+                  v-model="searchData"
+              >
+                <a-icon slot="prefix" type="search" style="color:rgba(0,0,0,.25)"/>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary" html-type="submit" @click="search">
+                搜索
+              </a-button>
+            </a-form-item>
+          </a-form>
+          <!--          <a-form>-->
+          <!--            <a-form-item>-->
+          <!--              <a-input-->
+          <!--                  v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"-->
+          <!--                  placeholder="Select a option and change input text above"-->
+          <!--              />-->
+          <!--            </a-form-item>-->
+          <!--            <a-button type="primary" html-type="submit">-->
+          <!--              Submit-->
+          <!--            </a-button>-->
+          <!--          </a-form>-->
         </div>
 
         <a-table
@@ -68,6 +95,7 @@ export default {
   },
   data() {
     return {
+      searchData:'',
       description: '您可以选择一个考试',
       extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
       pagination: {
@@ -144,6 +172,25 @@ export default {
     this.loadAll()
   },
   methods: {
+    search() {
+      request.get("/exam/all",this.searchData)
+          .then(res => {
+            if (res.code === '0') {
+              this.dataSource = res.data
+              this.pagination.total = this.dataSource.length
+              this.loading = false;
+              this.$notification.success({
+                message: '成功',
+                description: `搜索成功`
+              })
+            } else {
+              this.$notification.error({
+                message: '搜索失败',
+                description: res.msg
+              })
+            }
+          })
+    },
     handleJoin(id) {
       console.log("serial是")
       console.log(id)
