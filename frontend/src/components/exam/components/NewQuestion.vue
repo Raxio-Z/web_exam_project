@@ -57,7 +57,6 @@
           <!-- 非判断题的时候显示 -->
           <a-form-item label="创建选项" :labelCol="labelCol" :wrapperCol="wrapperCol" v-if="type!==3">
             <a-input
-                v-decorator="['option', { rules: [{required: true}]}]"
                 placeholder="输入内容后按Enter添加到下方选项列表"
                 @pressEnter="addOption()"
             />

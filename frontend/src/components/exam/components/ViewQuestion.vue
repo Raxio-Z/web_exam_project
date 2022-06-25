@@ -7,12 +7,13 @@
         <br>
         <h3><b>选项：</b></h3>
         <ul>
-          <li v-for="option in question.options" :key="option.id" v-html="option.content"/>
+          <li v-for="option in question.options" :key="option.questionOptionId" v-html="option.questionOptionContent"/>
         </ul>
         <br>
         <h3><b>答案：</b></h3>
         <ul>
-          <li v-for="option in question.options" :key="option.id" v-show="this.question.answer_ids.get(option.id)" v-html="option.content"/>
+          <li v-for="option in question.options" :key="option.id" v-show="judge(option)"
+              v-html="option.questionOptionContent"/>
         </ul>
         <br>
       </a-form>
@@ -28,7 +29,7 @@
 export default {
   // 问题查看的弹出框，用于查看问题/修改问题
   name: 'ViewQuestion',
-  data () {
+  data() {
     return {
       visible: false,
       confirmLoading: false,
@@ -36,18 +37,28 @@ export default {
       form: this.$form.createForm(this),
       // 每个问题
       question: {},
-      options: [],
-      answerOption: ''
     }
   },
   methods: {
-    edit (record) {
+    edit(record) {
       this.visible = true
       // 把当前的记录赋值到data中的变量
       this.question = record
+
+      console.log(record)
+
     },
 
-    handleCancel () {
+    judge(option) {
+      var i = 0
+      for (; i < this.question.answers.length; i++) {
+        if (option.questionOptionId === this.question.answers[i].questionOptionId)
+          return true
+      }
+      return false
+    },
+
+    handleCancel() {
       // clear form & currentStep
       this.visible = false
     },
