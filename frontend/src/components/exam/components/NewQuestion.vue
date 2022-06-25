@@ -257,11 +257,11 @@ export default {
           // 把data中的question属性提交到后端，待写完后端接口.把前端的创建的题型提交到后端
 
           //TODO 注意！这里要修改url，参数就是value，已经给了内部结构了
-          request.post("/exam/search", values).then(res => {
+          request.post("/question/create", values).then(res => {
             //questionCreate(values).then(res => {
             // 成功
             console.log(res)
-            if (res.code === 0) {
+            if (res.code === '0') {
               this.$notification.success({
                 message: '创建成功',
                 description: '问题创建成功'

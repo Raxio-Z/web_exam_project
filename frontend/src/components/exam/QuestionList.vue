@@ -155,7 +155,7 @@ export default {
     },
     search() {
       //TODO 这里的搜索url需要改动
-      request.post("/exam/search",this.searchData)
+      request.post("/question/search",this.searchData)
           .then(res => {
             if (res.code === '0') {
               this.dataSource = res.data
@@ -190,7 +190,7 @@ export default {
       console.log("serial是")
       console.log(id)
       const routeUrl = this.$router.resolve({
-        path: `/exam/${id}`
+        path: `/question/${id}`
       })
       window.open(routeUrl.href, '_blank')
     },
@@ -202,9 +202,14 @@ export default {
 
     loadAll() {
       this.loading = true;
-      request.get("/exam/all")
+      request.get("/question/all")
           .then(res => {
             if (res.code === '0') {
+
+              // debug
+              console.log(res.data)
+
+
               this.dataSource = res.data
               this.pagination.total = this.dataSource.length
               this.loading = false;

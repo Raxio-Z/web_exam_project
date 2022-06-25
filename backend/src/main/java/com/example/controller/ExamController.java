@@ -202,10 +202,12 @@ public class ExamController {
             examVo.setCheckScore(exam.getExamCheckPoints());
             examVo.setRadioScore(exam.getExamRadioPoints());
             examVo.setJudgeScore(exam.getExamJudgePoints());
-
-            examDetailVo.setRadioIds(DecoderUtils.decodeIds(exam.getExamRadioIds()));
-            examDetailVo.setCheckIds(DecoderUtils.decodeIds(exam.getExamCheckIds()));
-            examDetailVo.setJudgeIds(DecoderUtils.decodeIds(exam.getExamJudgeIds()));
+            if (!exam.getExamRadioIds().isEmpty())
+                examDetailVo.setRadioIds(DecoderUtils.decodeIds(exam.getExamRadioIds()));
+            if (!exam.getExamCheckIds().isEmpty())
+                examDetailVo.setCheckIds(DecoderUtils.decodeIds(exam.getExamCheckIds()));
+            if (!exam.getExamJudgeIds().isEmpty())
+                examDetailVo.setJudgeIds(DecoderUtils.decodeIds(exam.getExamJudgeIds()));
             examDetailVo.setExam(examVo);
 
             return Result.success(examDetailVo);
@@ -251,7 +253,7 @@ public class ExamController {
             if (examRecordMapper.selectByMap(req).isEmpty())
                 examRecordMapper.insert(record);
             else
-                examRecordMapper.updateScore(record.getExamRecordScore(),record.getExamRecordJoinerId(), record.getExamRecordExamId());
+                examRecordMapper.updateScore(record.getExamRecordScore(), record.getExamRecordJoinerId(), record.getExamRecordExamId());
 
             return Result.success();
         } catch (Exception e) {
@@ -263,8 +265,7 @@ public class ExamController {
     }
 
     @PostMapping("/search")
-    Result<?> ExamFilter(@RequestBody String key)
-    {
+    Result<?> ExamFilter(@RequestBody String key) {
         List<ExamVo> examVos;
         Result<?> res;
         try {

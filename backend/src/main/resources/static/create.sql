@@ -109,10 +109,23 @@ insert into exam_category(`name`) values('计算机');
 insert into exam_category(`name`) values('化学');
 insert into exam_category(`name`) values('web');
 
+insert into question_category(content) values('数学');
+insert into question_category(content) values('物理');
+insert into question_category(content) values('计算机');
+insert into question_category(content) values('web');
 
 insert into exam_level(`name`) values('hard');
 insert into exam_level(`name`) values('mid');
 insert into exam_level(`name`) values('easy');
+
+insert into question_level(`name`) values('hard');
+insert into question_level(`name`) values('mid');
+insert into question_level(`name`) values('easy');
+
+
+
+
+
 
 INSERT INTO exam(`name`,category_id,level_id,score,time_limit) VALUES('Basic Math',1,2,100,111);
 INSERT INTO exam(`name`,category_id,level_id,score,time_limit) VALUES('Trigonometry',2,2,100,73);
@@ -139,15 +152,17 @@ insert into question_type(id,`type`) values(1,'单选题');
 insert into question_type(id,`type`) values(2,'多选题');
 insert into question_type(id,`type`) values(3,'判断题');
 
-insert into question(`name`,type_id,option_ids,answer_ids) values('完整的计算机系统应包括',1,'1-2-3-4','4');
-insert into question(`name`,type_id,option_ids,answer_ids) values('计算机硬件能直接识别的只有',1,'5-6-7-8','7');
-insert into question(`name`,type_id,option_ids,answer_ids) values('冯·诺依曼计算机中指令和数据均以二进制形式存放在存储器中， CPU 区分它们的依据是',1,'9-10-11-12','4');
-insert into question(`name`,type_id,option_ids,answer_ids) values('下列属于计算机硬件的是',2,'15-16-17-18','15-18');
-insert into question(`name`,type_id,option_ids,answer_ids) values('下列属于属于高级语言的是',2,'19-20-21-22','19-20');
-insert into question(`name`,type_id,option_ids,answer_ids) values('下列属于计算机外接设备的是',2,'23-24-25-26','23-24-25');
-insert into question(`name`,type_id,option_ids,answer_ids) values('同一个CPU 周期中，可以并行执行的微操作叫相容性操作',3,'13-14','14');
-insert into question(`name`,type_id,option_ids,answer_ids) values('就微命令的编码方式而言，若微操作命令的个数已确定，则直接表示法比编码表示法的微指令字长短 ',3,'13-14','13');
-insert into question(`name`,type_id,option_ids,answer_ids) values('相对于微程序控制器，硬布线控制器的特点是指令执行速度慢，指令功能的修改和扩展容易',3,'13-14','14');
+
+
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('完整的计算机系统应包括',1,3,1,'1-2-3-4','4');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('计算机硬件能直接识别的只有',1,3,1,'5-6-7-8','7');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('冯·诺依曼计算机中指令和数据均以二进制形式存放在存储器中， CPU 区分它们的依据是',1,3,1,'9-10-11-12','4');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('下列属于计算机硬件的是',1,3,2,'15-16-17-18','15-18');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('下列属于属于高级语言的是',1,3,2,'19-20-21-22','19-20');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('下列属于计算机外接设备的是',1,3,2,'23-24-25-26','23-24-25');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('同一个CPU 周期中，可以并行执行的微操作叫相容性操作',1,3,3,'13-14','14');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('就微命令的编码方式而言，若微操作命令的个数已确定，则直接表示法比编码表示法的微指令字长短 ',1,3,3,'13-14','13');
+insert into question(`name`,level_id,category_id,type_id,option_ids,answer_ids) values('相对于微程序控制器，硬布线控制器的特点是指令执行速度慢，指令功能的修改和扩展容易',1,3,3,'13-14','14');
 
 insert into question_option(content) values('运算器、存储器、控制器');
 insert into question_option(content) values('外部设备和主机');
@@ -178,6 +193,8 @@ insert into question_option(content) values('键盘');-- 23
 insert into question_option(content) values('鼠标');
 insert into question_option(content) values('音响');
 insert into question_option(content) values('CPU');
+
+
 
 
 
@@ -221,6 +238,7 @@ select * from `user`;
 
 
 
+select q.id as `serial`,q.`name` as `name`,ql.`name` as difficulty,qc.`name` as `subject`,qt.`type` as `category` from question q,question_level ql,question_type qt,question_category qc;
 
 
 
