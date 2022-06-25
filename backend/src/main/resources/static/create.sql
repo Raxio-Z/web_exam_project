@@ -109,10 +109,10 @@ insert into exam_category(`name`) values('计算机');
 insert into exam_category(`name`) values('化学');
 insert into exam_category(`name`) values('web');
 
-insert into question_category(content) values('数学');
-insert into question_category(content) values('物理');
-insert into question_category(content) values('计算机');
-insert into question_category(content) values('web');
+insert into question_category(`name`) values('数学');
+insert into question_category(`name`) values('物理');
+insert into question_category(`name`) values('计算机');
+insert into question_category(`name`) values('web');
 
 insert into exam_level(`name`) values('hard');
 insert into exam_level(`name`) values('mid');
@@ -238,7 +238,7 @@ select * from `user`;
 
 
 
-select q.id as `serial`,q.`name` as `name`,ql.`name` as difficulty,qc.`name` as `subject`,qt.`type` as `category` from question q,question_level ql,question_type qt,question_category qc;
+select q.id as `serial`,q.`name` as `name`,ql.`name` as difficulty,qc.`name` as `subject`,qt.`type` as `category` from question q,question_level ql,question_type qt,question_category qc where q.level_id = ql.id and q.category_id = qc.id and q.level_id = ql.id and q.type_id = qt.id;
 
 
 

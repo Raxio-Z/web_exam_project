@@ -33,7 +33,7 @@ public class QuestionController {
         try {
             List<QuestionVo> questionVos = questionMapper.findAllQuestionVo();
             List<Question> questions = questionMapper.selectList(new QueryWrapper<Question>());
-            for(int i=0;i<questions.size();i++) {
+            for (int i = 0; i < questions.size(); i++) {
                 //Map<String,Object> t1 = new HashMap<>();
 
                 List<Integer> optionIds = DecoderUtils.decodeIds(questions.get(i).getQuestionOptionIds());
@@ -92,8 +92,7 @@ public class QuestionController {
     }
 
     @PostMapping("/search")
-    Result<?> questionFilter(@RequestBody String key)
-    {
+    Result<?> questionFilter(@RequestBody String key) {
         List<QuestionVo> questionVos;
         Result<?> res;
         try {
