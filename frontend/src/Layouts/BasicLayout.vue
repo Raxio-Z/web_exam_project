@@ -30,6 +30,14 @@
 
 
         </a-menu-item>
+        <a-menu-item key="questionList">
+          <router-link :to="{name:'questionList'}">
+            <div class="question-list">
+              <a-icon type="question-circle"/>
+              <span>问题列表</span>
+            </div>
+          </router-link>
+        </a-menu-item>
         <a-menu-item key="examList">
           <router-link :to="{name:'examList'}">
             <div class="exam-list">
