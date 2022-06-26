@@ -1,10 +1,10 @@
 <template>
-  <a-modal title="创建问题" :width="800" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
+  <a-modal title="创建题目" :width="800" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
     <a-spin :spinning="confirmLoading">
       <a-steps :current="currentStep" :style="{ marginBottom: '28px' }" size="small">
-        <a-step title="问题内容"/>
-        <a-step title="问题分类"/>
-        <a-step title="问题选项"/>
+        <a-step title="题目内容"/>
+        <a-step title="题目分类"/>
+        <a-step title="题目选项"/>
       </a-steps>
       <a-form :form="form">
         <!-- step1 -->
@@ -57,6 +57,7 @@
           <!-- 非判断题的时候显示 -->
           <a-form-item label="创建选项" :labelCol="labelCol" :wrapperCol="wrapperCol" v-if="type!==3">
             <a-input
+                v-decorator="['option']"
                 placeholder="输入内容后按Enter添加到下方选项列表"
                 @pressEnter="addOption()"
             />
@@ -295,8 +296,10 @@ export default {
       const {form: {validateFields}} = this
       validateFields((errors, values) => { // values就是表单中校验的值，后面提交到后端接口时主要就是用这个values
         console.log('errors:', errors, 'val:', values)
+        console.log('options',this.options)
         for (let i = 0; i < this.options.length; i++) {
           const option = this.options[i]
+
           if (option.content === values.option) {
             this.$notification.error({
               message: '错误',

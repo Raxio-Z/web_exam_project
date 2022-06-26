@@ -34,7 +34,7 @@
           <router-link :to="{name:'questionList'}">
             <div class="question-list">
               <a-icon type="question-circle"/>
-              <span>问题列表</span>
+              <span>题目列表</span>
             </div>
           </router-link>
         </a-menu-item>

@@ -5,10 +5,10 @@
       <div class="txt">
         <a-breadcrumb class="site">
           <a-breadcrumb-item>在线考试系统</a-breadcrumb-item>
-          <a-breadcrumb-item>问题列表</a-breadcrumb-item>
+          <a-breadcrumb-item>题目列表</a-breadcrumb-item>
         </a-breadcrumb>
         <div class="msg">
-          问题列表
+          题目列表
         </div>
         <p class="des" style="font-size: 14px;color: rgba(0,0,0,.65)">{{ description }}</p>
       </div>
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       searchData:'',
-      description: '下面是问题列表',
+      description: '下面是题目列表',
       extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
       pagination: {
         disabled: false,  //禁用分页
@@ -107,7 +107,6 @@ export default {
         {
           title: '题干',
           dataIndex: 'name',
-          ellipsis: true,
         },
         {
           title: '题型',
@@ -165,7 +164,7 @@ export default {
               if(this.dataSource.length===0)
               {
                 this.$notification.error({
-                  message: '没有相关问题',
+                  message: '没有相关题目',
                   description: '空'
                 })
               }
@@ -215,7 +214,7 @@ export default {
               this.loading = false;
             } else {
               this.$notification.error({
-                message: '获取全部问题的列表失败',
+                message: '获取全部题目的列表失败',
                 description: res.msg
               })
             }
